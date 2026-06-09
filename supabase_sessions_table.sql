@@ -8,8 +8,15 @@ create table if not exists sessions (
   lecturer_name text,
   status       text not null default 'active',   -- 'active' | 'closed'
   started_at   timestamptz default now(),
-  ended_at     timestamptz
+  ended_at     timestamptz,
+  latitude     numeric,
+  longitude    numeric
 );
+
+-- If the table already exists, run this to add the location columns:
+alter table if exists sessions
+  add column if not exists latitude numeric,
+  add column if not exists longitude numeric;
 
 -- Allow anonymous reads and writes (for the app)
 alter table sessions enable row level security;

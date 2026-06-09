@@ -175,7 +175,8 @@
         <div class="w-full max-w-md bg-surface-container-lowest border border-outline-variant rounded-xl p-8 shadow-sm">
             <h1 class="font-headline-md text-headline-md text-on-surface mb-2">Student Details</h1>
             <p class="font-body-sm text-body-sm text-on-surface-variant mb-8">Please provide your institutional
-                credentials to verify attendance for <span class="font-bold text-primary">CS101: Data Structures</span>.
+                credentials to verify attendance for <span class="font-bold text-primary">INFT 258 SOFTWARE
+                    ENGINEERING</span>.
             </p>
             <form class="space-y-6" id="attendanceForm">
                 <!-- Name Field -->
@@ -274,6 +275,12 @@
     <!-- Background Pattern/Scanline -->
     <div class="fixed inset-0 security-scanline opacity-30 pointer-events-none -z-10"></div>
     <script>
+        // Check if already submitted today
+        const todayStr = new Date().toDateString();
+        if (localStorage.getItem('attendance_submitted_date') === todayStr) {
+            window.location.href = '../success_attendance_recorded/Success.html';
+        }
+
         // Countdown Logic
         let timeLeft = 59;
         const countdownEl = document.getElementById('countdown');
@@ -323,6 +330,8 @@
                 btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> SUBMITTED';
                 btn.classList.replace('bg-primary', 'bg-tertiary-container');
                 btn.classList.replace('text-on-primary', 'text-on-tertiary-container');
+                
+                localStorage.setItem('attendance_submitted_date', new Date().toDateString());
 
                 setTimeout(() => {
                     window.location.href = '../success_attendance_recorded/code.html';
@@ -356,6 +365,7 @@
                 alert("❌ Error saving student");
             } else {
                 alert("✅ Student saved successfully!");
+                localStorage.setItem('attendance_submitted_date', new Date().toDateString());
                 document.getElementById("studentForm").reset();
             }
         });
