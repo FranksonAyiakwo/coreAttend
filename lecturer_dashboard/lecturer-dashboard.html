@@ -325,7 +325,8 @@
         <!-- Main Content -->
         <main class="flex-1 lg:ml-64 p-gutter overflow-y-auto bg-surface scroll-smooth">
             <div class="max-w-max-width mx-auto">
-                <header id="dashboard-top" class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4 scroll-mt-24">
+                <header id="dashboard-top"
+                    class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4 scroll-mt-24">
                     <div>
                         <h1 class="font-headline-lg text-headline-lg text-primary mb-2">My Assigned Classes</h1>
                         <p class="text-on-surface-variant font-body-md">Manage attendance sessions and review student
@@ -387,15 +388,17 @@
                             </div>
                         </div>
                         <!-- Session status badge shown after session starts -->
-                        <div id="session-status-bar" class="hidden mb-3 flex items-center gap-2 px-3 py-2 bg-error-container/30 border border-error/30 rounded-lg">
+                        <div id="session-status-bar"
+                            class="hidden mb-3 flex items-center gap-2 px-3 py-2 bg-error-container/30 border border-error/30 rounded-lg">
                             <span class="relative flex h-3 w-3">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-error opacity-75"></span>
+                                <span
+                                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-error opacity-75"></span>
                                 <span class="relative inline-flex rounded-full h-3 w-3 bg-error"></span>
                             </span>
-                            <span class="font-label-sm text-error" id="session-status-text">Session Active — students can now submit</span>
+                            <span class="font-label-sm text-error" id="session-status-text">Session Active — students
+                                can now submit</span>
                         </div>
-                        <button id="start-btn"
-                            onclick="handleSessionBtn()"
+                        <button id="start-btn" onclick="handleSessionBtn()"
                             class="w-full bg-primary text-on-primary py-3 rounded-lg font-bold hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2">
                             <span class="material-symbols-outlined" data-icon="play_arrow">play_arrow</span>
                             Start Attendance
@@ -576,7 +579,7 @@
                     <tr>
                         <td colspan="5" class="px-4 py-8 text-center text-on-surface-variant font-body-sm">
                             <span class="material-symbols-outlined block mx-auto mb-2">inbox</span>
-                            No attendance records yet.
+                            No attendance available.
                         </td>
                     </tr>`;
                 return;
@@ -607,7 +610,7 @@
             if (!confirm("⚠️ WARNING: Are you sure you want to delete ALL attendance records? This cannot be undone! Please make sure you have downloaded the Excel sheet first.")) {
                 return;
             }
-            
+
             const btn = document.getElementById('clearBtn');
             const originalHTML = btn.innerHTML;
             btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">sync</span> Clearing...';
@@ -625,7 +628,7 @@
                 alert("All attendance records have been permanently deleted.");
                 loadAttendance();
             }
-            
+
             btn.innerHTML = originalHTML;
             btn.disabled = false;
         }
@@ -703,7 +706,7 @@
                 // Start a new session
                 startBtn.disabled = true;
                 startBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Getting Location...';
-                
+
                 if (!navigator.geolocation) {
                     alert("Geolocation is not supported by your browser.");
                     startBtn.disabled = false;
@@ -714,10 +717,10 @@
                 navigator.geolocation.getCurrentPosition(async (position) => {
                     const lat = position.coords.latitude;
                     const lng = position.coords.longitude;
-                    
+
                     startBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Starting...';
                     const lecturerName = localStorage.getItem('coreattend_lecturer') || 'Lecturer';
-                    
+
                     const { data, error } = await supabaseClient
                         .from('sessions')
                         .insert([{
@@ -731,7 +734,7 @@
                         }])
                         .select()
                         .single();
-                        
+
                     if (!error && data) {
                         currentSessionId = data.id;
                         setSessionActive(true);
