@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>CoreAttend - Portal</title>
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap"
+        rel="stylesheet" />
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#f7f9fb",
+                        "primary": "#00236f",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#444651",
+                        "surface-container-low": "#f2f4f6",
+                        "outline-variant": "#c5c5d3",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#d0e1fb",
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* ── Dark Mode Overrides ─────────────────────────────────────── */
+        html.dark body,
+        html.dark main,
+        html.dark .bg-surface {
+            background-color: #111316 !important;
+            color: #e2e4e8 !important;
+        }
+
+        html.dark header {
+            background-color: #1a1d21 !important;
+            border-color: #2e3035 !important;
+        }
+
+        html.dark .bg-white {
+            background-color: #1e2126 !important;
+        }
+
+        html.dark .bg-surface-container-low {
+            background-color: #1a1d21 !important;
+        }
+
+        html.dark .bg-secondary-container {
+            background-color: #1c2b3a !important;
+        }
+
+        html.dark .text-on-surface {
+            color: #e2e4e8 !important;
+        }
+
+        html.dark .text-on-surface-variant {
+            color: #9da0ab !important;
+        }
+
+        html.dark .border-outline-variant {
+            border-color: #2e3035 !important;
+        }
+
+        html.dark .text-primary,
+        html.dark .group-hover\:text-primary:hover {
+            color: #b6c4ff !important;
+        }
+
+        /* ── Theme Toggle Switch ─────────────────────────────────────── */
+        .theme-toggle {
+            position: relative;
+            width: 48px;
+            height: 24px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .theme-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .theme-toggle .slider {
+            position: absolute;
+            inset: 0;
+            background: #c5c5d3;
+            border-radius: 24px;
+            transition: background 0.3s;
+        }
+
+        .theme-toggle input:checked+.slider {
+            background: #00236f;
+        }
+
+        .theme-toggle .slider::before {
+            content: '';
+            position: absolute;
+            left: 2px;
+            bottom: 2px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #fff;
+            transition: transform 0.3s;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-toggle input:checked+.slider::before {
+            transform: translateX(24px);
+        }
+    </style>
+</head>
+
+<body class="bg-surface text-on-surface min-h-screen flex flex-col font-body-md">
+    <!-- Top Navigation Bar -->
+    <header
+        class="flex justify-between items-center w-full px-4 h-16 fixed top-0 z-50 bg-surface border-b border-outline-variant">
+        <div class="font-headline-md font-bold text-primary text-xl">CoreAttend</div>
+        <div class="flex items-center gap-4">
+            <!-- Theme Toggle -->
+            <label class="theme-toggle" title="Toggle dark / light mode">
+                <input type="checkbox" id="theme-toggle-input" onchange="toggleTheme(this.checked)" />
+                <span class="slider"></span>
+            </label>
+            <img alt="ITDS Logo" class="h-10 w-10 object-contain" src="itds.png" />
+            <img alt="UENR Crest" class="h-10 w-10 object-contain" src="uenr.png" />
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow flex flex-col items-center justify-center pt-20 pb-24 px-4 w-full">
+
+        <div class="text-center mb-10">
+            <div class="w-20 h-20 mx-auto bg-secondary-container rounded-full flex items-center justify-center mb-4">
+                <span class="material-symbols-outlined text-primary text-4xl"
+                    style="font-variation-settings: 'FILL' 1;">how_to_reg</span>
+            </div>
+            <h1 class="text-3xl font-bold text-on-surface mb-2">Welcome to CoreAttend</h1>
+            <p class="text-on-surface-variant max-w-md mx-auto">The best source for taking students' attendance.</p>
+        </div>
+
+        <div class="flex flex-col gap-6 w-full max-w-sm mx-auto justify-center">
+
+            <!-- Student Portal Card -->
+            <a href="student_enter_code/Student-eneter%20code.html"
+                class="bg-white border border-outline-variant rounded-2xl p-6 hover:shadow-lg hover:border-primary transition-all group flex flex-col items-center text-center">
+                <div
+                    class="w-14 h-14 bg-surface-container-low rounded-full flex items-center justify-center mb-4 group-hover:bg-secondary-container transition-colors">
+                    <span
+                        class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors text-3xl">school</span>
+                </div>
+                <h2 class="text-xl font-bold text-primary mb-2">Student Portal</h2>
+                <p class="text-sm text-on-surface-variant">Students should not tamper with lecturer's section or else
+                    all records will be cleared</p>
+            </a>
+
+        </div>
+
+    </main>
+
+    <script>
+        // ── Dark / Light Mode Toggle ────────────────────────────────────
+        const htmlEl = document.documentElement;
+        const themeInput = document.getElementById('theme-toggle-input');
+
+        // Restore saved preference
+        const savedTheme = localStorage.getItem('coreattend_theme') || 'light';
+        if (savedTheme === 'dark') {
+            htmlEl.classList.replace('light', 'dark');
+            themeInput.checked = true;
+        }
+
+        function toggleTheme(isDark) {
+            if (isDark) {
+                htmlEl.classList.replace('light', 'dark');
+                localStorage.setItem('coreattend_theme', 'dark');
+            } else {
+                htmlEl.classList.replace('dark', 'light');
+                localStorage.setItem('coreattend_theme', 'light');
+            }
+        }
+    </script>
+</body>
+
+</html>

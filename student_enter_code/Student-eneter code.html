@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>CoreAttend - Student Code Entry</title>
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#d8dadc",
+                        "tertiary-fixed-dim": "#89ceff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f7f9fb",
+                        "primary-fixed": "#dce1ff",
+                        "primary": "#00236f",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#54647a",
+                        "inverse-surface": "#2d3133",
+                        "inverse-primary": "#b6c4ff",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "surface-variant": "#e0e3e5",
+                        "tertiary-fixed": "#c9e6ff",
+                        "surface-container-low": "#f2f4f6",
+                        "error": "#ba1a1a",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#004c6e",
+                        "surface-container-highest": "#e0e3e5",
+                        "outline-variant": "#c5c5d3",
+                        "secondary": "#505f76",
+                        "tertiary-container": "#004565",
+                        "surface-container-high": "#e6e8ea",
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#444651",
+                        "primary-container": "#1e3a8a",
+                        "on-tertiary-fixed": "#001e2f",
+                        "surface-container": "#eceef0",
+                        "on-tertiary-container": "#36b6fb",
+                        "tertiary": "#002e44",
+                        "secondary-container": "#d0e1fb",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#00164e",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "primary-fixed-dim": "#b6c4ff",
+                        "on-secondary-fixed": "#0b1c30",
+                        "background": "#f7f9fb",
+                        "surface-bright": "#f7f9fb",
+                        "on-primary-fixed-variant": "#264191",
+                        "on-primary-container": "#90a8ff",
+                        "outline": "#757682",
+                        "on-surface": "#191c1e",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-error-container": "#93000a",
+                        "surface-tint": "#4059aa",
+                        "on-background": "#191c1e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "base": "4px",
+                        "margin-desktop": "40px",
+                        "max-width": "1280px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-md": ["JetBrains Mono"],
+                        "label-sm": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .monospaced-timer {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .focus-ring-navy:focus {
+            outline: none;
+            border-color: #00236f;
+            box-shadow: 0 0 0 2px rgba(0, 35, 111, 0.2);
+        }
+
+        /* Session Gate */
+        #session-gate {
+            position: fixed;
+            inset: 0;
+            z-index: 90;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: linear-gradient(135deg, #f7f9fb 0%, #e8edf7 100%);
+        }
+
+        #session-gate.hidden {
+            display: none;
+        }
+
+        @keyframes floatBadge {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .gate-icon-float {
+            animation: floatBadge 3s ease-in-out infinite;
+        }
+
+        @keyframes pulseRing {
+            0% {
+                transform: scale(0.9);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(1.6);
+                opacity: 0;
+            }
+        }
+
+        .pulse-ring {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 2px solid #00236f;
+            animation: pulseRing 2s ease-out infinite;
+        }
+
+        /* Lecturer PIN Modal */
+        #lecturer-modal-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(6px);
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        #lecturer-modal-backdrop.open {
+            display: flex;
+        }
+
+        #lecturer-modal {
+            width: 100%;
+            max-width: 420px;
+            background: #fff;
+            border-radius: 24px 24px 0 0;
+            padding: 32px 24px 40px;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 -8px 40px rgba(0, 35, 111, 0.15);
+        }
+
+        #lecturer-modal-backdrop.open #lecturer-modal {
+            transform: translateY(0);
+        }
+
+        .pin-input-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .pin-box {
+            width: 52px;
+            height: 64px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: 700;
+            border: 2px solid #c5c5d3;
+            border-radius: 12px;
+            background: #f2f4f6;
+            outline: none;
+            font-family: 'JetBrains Mono', monospace;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            letter-spacing: 0;
+        }
+
+        .pin-box:focus {
+            border-color: #00236f;
+            box-shadow: 0 0 0 3px rgba(0, 35, 111, 0.15);
+            background: #fff;
+        }
+
+        .pin-box.error {
+            border-color: #ba1a1a;
+            background: #fff0f0;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20% {
+                transform: translateX(-8px);
+            }
+
+            40% {
+                transform: translateX(8px);
+            }
+
+            60% {
+                transform: translateX(-5px);
+            }
+
+            80% {
+                transform: translateX(5px);
+            }
+        }
+
+        .shake {
+            animation: shake 0.4s ease;
+        }
+    </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+
+        /* Glassmorphism overlay */
+        .glass-overlay {
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            box-shadow: 0 8px 32px 0 rgba(0, 35, 111, 0.18);
+        }
+
+        .session-done-backdrop {
+            animation: fadeInBackdrop 0.4s ease forwards;
+        }
+
+        .session-done-card {
+            animation: slideUpCard 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes fadeInBackdrop {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUpCard {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-surface text-on-surface min-h-screen flex flex-col font-body-md">
+    <!-- Top Navigation Bar (Suppressed on focused screens, but using TopAppBar logic for identity) -->
+    <header
+        class="flex justify-between items-center w-full px-4 h-16 fixed top-0 z-50 bg-surface border-b border-outline-variant">
+        <div class="font-headline-md font-bold text-primary">CoreAttend</div>
+        <div class="flex items-center gap-2">
+            <img alt="Department of Information Technology & Digital Services logo" class="h-10 w-10 object-contain"
+                src="../itds.png" />
+            <img alt="University crest - Knowledge Integrity Impact" class="h-10 w-10 object-contain"
+                src="../uenr.png" />
+        </div>
+    </header>
+    <!-- Session Gate Screen (shown when no active session) -->
+    <div id="session-gate">
+        <div class="w-full max-w-sm flex flex-col items-center text-center gap-6">
+            <!-- Animated Icon -->
+            <div class="relative gate-icon-float">
+                <div class="pulse-ring"></div>
+                <div
+                    class="w-24 h-24 rounded-full bg-secondary-container flex items-center justify-center shadow-xl relative">
+                    <span class="material-symbols-outlined text-primary text-5xl"
+                        style="font-variation-settings:'FILL' 1;">lock</span>
+                </div>
+            </div>
+            <!-- Title -->
+            <div>
+                <h1 class="font-headline-lg-mobile text-on-surface font-bold mb-2">No Active Session</h1>
+                <p class="font-body-sm text-on-surface-variant">Your lecturer has not started an attendance session yet.
+                    Please wait — this page will unlock automatically when the session begins.</p>
+            </div>
+            <!-- Polling indicator -->
+            <div
+                class="flex items-center gap-2 px-4 py-2 bg-surface-container-low border border-outline-variant rounded-full">
+                <span class="material-symbols-outlined animate-spin text-primary text-[18px]">sync</span>
+                <span class="font-label-sm text-on-surface-variant" id="gate-status">Checking for session…</span>
+            </div>
+            <!-- Course info chip -->
+            <div class="px-5 py-3 bg-primary text-on-primary rounded-xl w-full">
+                <p class="font-label-sm opacity-70 uppercase tracking-wider mb-1">Course</p>
+                <p class="font-label-md font-bold">INFT 258 — SOFTWARE ENGINEERING</p>
+            </div>
+            <!-- Lecturer Access Link -->
+            <button onclick="openLecturerModal()"
+                class="flex items-center gap-2 text-on-surface-variant font-label-sm hover:text-primary transition-colors mt-2">
+                <span class="material-symbols-outlined text-[16px]">admin_panel_settings</span>
+                Lecturer Access
+            </button>
+        </div>
+    </div>
+
+    <!-- Lecturer PIN Modal -->
+    <div id="lecturer-modal-backdrop" onclick="handleBackdropClick(event)">
+        <div id="lecturer-modal">
+            <!-- Drag handle -->
+            <div class="w-10 h-1 bg-outline-variant rounded-full mx-auto mb-6"></div>
+            <!-- Header -->
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center">
+                    <span class="material-symbols-outlined text-primary"
+                        style="font-variation-settings:'FILL' 1;">admin_panel_settings</span>
+                </div>
+                <div>
+                    <h2 class="font-headline-md text-primary font-bold">Lecturer Access</h2>
+                    <p class="font-body-sm text-on-surface-variant">Enter your private access code. Students should not
+                        tamper with this section or else attendance will be marked as absent.</p>
+                </div>
+            </div>
+            <!-- PIN input boxes -->
+            <div class="pin-input-row mb-3" id="pin-row">
+                <input class="pin-box" id="p0" maxlength="1" type="password" inputmode="text" autocomplete="off" />
+                <input class="pin-box" id="p1" maxlength="1" type="password" inputmode="text" autocomplete="off" />
+                <input class="pin-box" id="p2" maxlength="1" type="password" inputmode="text" autocomplete="off" />
+                <input class="pin-box" id="p3" maxlength="1" type="password" inputmode="text" autocomplete="off" />
+                <input class="pin-box" id="p4" maxlength="1" type="password" inputmode="text" autocomplete="off" />
+                <input class="pin-box" id="p5" maxlength="1" type="password" inputmode="text" autocomplete="off" />
+                <input class="pin-box" id="p6" maxlength="1" type="password" inputmode="text" autocomplete="off" />
+                <input class="pin-box" id="p7" maxlength="1" type="password" inputmode="text" autocomplete="off" />
+            </div>
+            <!-- Error message -->
+            <p id="pin-error" class="text-center font-label-sm text-error mb-4 min-h-[18px]"></p>
+            <!-- Actions -->
+            <button onclick="verifyLecturerCode()"
+                class="w-full bg-primary text-on-primary py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all mb-3">
+                <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">login</span>
+                Access Dashboard
+            </button>
+            <button onclick="closeLecturerModal()"
+                class="w-full py-3 rounded-xl font-label-md text-on-surface-variant hover:bg-surface-container-high transition-all">
+                Cancel
+            </button>
+        </div>
+    </div>
+    <!-- Main Content Area -->
+    <main
+        class="flex-grow flex flex-col items-center justify-start pt-20 pb-24 px-margin-mobile md:px-gutter max-w-lg mx-auto w-full">
+        <!-- Security Shield & Status -->
+        <div class="w-full flex justify-center mb-8">
+            <div class="relative">
+                <div class="bg-secondary-container p-4 rounded-full">
+                    <span class="material-symbols-outlined text-primary text-4xl" data-icon="security"
+                        style="font-variation-settings: 'FILL' 1;">security</span>
+                </div>
+                <div
+                    class="absolute -bottom-1 -right-1 bg-on-tertiary-container text-tertiary border-2 border-surface rounded-full p-1">
+                    <span class="material-symbols-outlined text-sm" data-icon="verified_user">verified_user</span>
+                </div>
+            </div>
+        </div>
+        <!-- Countdown Timer: High Contrast Design System Command -->
+        <div
+            class="w-full bg-primary text-on-tertiary-container p-6 rounded-xl flex flex-col items-center justify-center mb-10 shadow-sm">
+            <span class="font-label-sm text-surface-variant mb-1">SESSION EXPIRES IN</span>
+            <div class="font-label-md text-4xl monospaced-timer tracking-widest text-on-tertiary-container" id="timer">
+                01:00</div>
+            <div class="w-full bg-tertiary-container h-1 mt-4 rounded-full overflow-hidden">
+                <div class="bg-on-tertiary-container h-full w-full transition-all duration-1000 ease-linear"
+                    id="timer-bar"></div>
+            </div>
+        </div>
+        <!-- Code Input Section -->
+        <div class="w-full space-y-6">
+            <div class="text-center">
+                <h1 class="font-headline-lg-mobile text-on-surface mb-2">Enter Lecture Code</h1>
+                <p class="font-body-sm text-on-surface-variant">Your instructor will provide a unique 6-digit code for
+                    today's session.</p>
+            </div>
+            <div class="space-y-4">
+                <div class="relative">
+                    <label class="sr-only" for="lecture-code">Lecture Code</label>
+                    <input autocomplete="off"
+                        class="w-full h-20 text-center font-label-md text-3xl tracking-[1rem] border-2 border-outline-variant rounded-xl focus:border-primary focus:ring-2 focus:ring-primary-container bg-surface-container-low placeholder:text-outline-variant transition-all"
+                        id="lecture-code" maxlength="6" placeholder="0 0 0 0 0 0" type="text" />
+                </div>
+                <!-- Compliance / Instructions Chips -->
+                <div class="grid grid-cols-1 gap-3">
+                    <div
+                        class="flex items-start gap-3 p-4 bg-surface-container rounded-xl border border-outline-variant">
+                        <span class="material-symbols-outlined text-primary shrink-0"
+                            data-icon="location_on">location_on</span>
+                        <div class="flex flex-col">
+                            <span class="font-label-sm font-bold text-primary">LOCATION REQUIRED</span>
+                            <p class="font-body-sm text-on-surface-variant">Ensure GPS is active to verify your
+                                attendance within the classroom.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3 p-4 bg-error-container/20 rounded-xl border border-error/20">
+                        <span class="material-symbols-outlined text-error shrink-0" data-icon="warning">warning</span>
+                        <div class="flex flex-col">
+                            <span class="font-label-sm font-bold text-error">ANTI-TAMPER ACTIVE</span>
+                            <p class="font-body-sm text-on-surface-variant">Switching apps or tabs will invalidate this
+                                check-in attempt.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Action Button -->
+        <div class="w-full mt-10">
+            <button
+                class="w-full bg-primary text-on-primary py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+                id="next-btn">
+                <span>NEXT</span>
+                <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+            </button>
+            <p class="text-center font-label-sm text-on-surface-variant mt-4 uppercase tracking-wider">Secure
+                Administrative Link</p>
+        </div>
+    </main>
+    <!-- Bottom Navigation Bar (Hidden on this focused screen per requirements) -->
+    <nav
+        class="hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 lg:hidden bg-surface border-t border-outline-variant">
+        <div
+            class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1">
+            <span class="material-symbols-outlined" data-icon="home">home</span>
+            <span class="font-label-sm">Home</span>
+        </div>
+        <div class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1">
+            <span class="material-symbols-outlined" data-icon="qr_code_scanner">qr_code_scanner</span>
+            <span class="font-label-sm">Scan</span>
+        </div>
+        <div class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1">
+            <span class="material-symbols-outlined" data-icon="history">history</span>
+            <span class="font-label-sm">History</span>
+        </div>
+        <div class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1">
+            <span class="material-symbols-outlined" data-icon="person">person</span>
+            <span class="font-label-sm">Profile</span>
+        </div>
+    </nav>
+    <!-- Session Done Glassmorphism Overlay -->
+    <div id="session-done-overlay"
+        class="hidden session-done-backdrop fixed inset-0 z-[100] flex items-center justify-center px-6"
+        style="background: rgba(0,0,0,0.45);">
+        <div
+            class="session-done-card glass-overlay w-full max-w-sm rounded-2xl p-8 flex flex-col items-center text-center gap-5">
+            <!-- Icon -->
+            <div class="w-16 h-16 rounded-full bg-primary flex items-center justify-center shadow-lg">
+                <span class="material-symbols-outlined text-on-primary text-3xl"
+                    style="font-variation-settings:'FILL' 1;">event_available</span>
+            </div>
+            <!-- Message -->
+            <div>
+                <h2 class="font-headline-md text-headline-md text-primary font-bold mb-1">Session is Done</h2>
+                <p class="font-body-sm text-on-surface-variant">Attendance session closed by</p>
+                <p class="font-label-md text-label-md text-primary font-bold mt-1" id="lecturer-name-display">Your
+                    Lecturer</p>
+            </div>
+            <!-- Divider -->
+            <div class="w-full h-px bg-outline-variant"></div>
+            <!-- Quit Button -->
+            <button onclick="window.close(); if(!window.closed) window.location.href='about:blank';"
+                class="w-full py-4 bg-primary text-on-primary font-bold rounded-xl flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all shadow-md">
+                <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">logout</span>
+                Quit
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // ── Supabase ──────────────────────────────────────────────────────
+        const SUPA_URL = "https://lmbyzxcvjqmoemfaprzk.supabase.co";
+        const SUPA_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtYnl6eGN2anFtb2VtZmFwcnprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3Mzk1MTYsImV4cCI6MjA5NjMxNTUxNn0.HAhSdN9pD-ccYneTc1BGI4eaPYGXqZ0l0i0pOiQpaic";
+        const supabaseClient = supabase.createClient(SUPA_URL, SUPA_KEY);
+        const COURSE_ID = 'INFT258';
+
+        // ── Session Gate Logic ────────────────────────────────────────────
+        const gate = document.getElementById('session-gate');
+        const gateStatus = document.getElementById('gate-status');
+        const mainContent = document.querySelector('main');
+        let pollInterval = null;
+        let sessionWasActive = false;
+
+        async function checkSession() {
+            const { data, error } = await supabaseClient
+                .from('sessions')
+                .select('id, status, lecturer_name')
+                .eq('course_id', COURSE_ID)
+                .eq('status', 'active')
+                .limit(1)
+                .maybeSingle();
+
+            if (data) {
+                // Session is active — unlock the form
+                sessionWasActive = true;
+                gate.classList.add('hidden');
+                mainContent.style.display = '';
+                // Store lecturer name for session-done overlay
+                if (data.lecturer_name) {
+                    localStorage.setItem('coreattend_lecturer', data.lecturer_name);
+                }
+                gateStatus.textContent = 'Session is live';
+            } else {
+                // No active session
+                if (sessionWasActive) {
+                    // Session just ended while student was on page — show Session Done
+                    clearInterval(pollInterval);
+                    const overlay = document.getElementById('session-done-overlay');
+                    const lecturerEl = document.getElementById('lecturer-name-display');
+                    lecturerEl.textContent = localStorage.getItem('coreattend_lecturer') || 'Your Lecturer';
+                    overlay.classList.remove('hidden');
+                } else {
+                    // Still no session — keep showing gate
+                    gate.classList.remove('hidden');
+                    mainContent.style.display = 'none';
+                    gateStatus.textContent = 'Waiting for lecturer to start…';
+                }
+            }
+        }
+
+        // Hide main on load immediately (before first check)
+        mainContent.style.display = 'none';
+
+        // Check immediately, then every 8 seconds
+        checkSession();
+        pollInterval = setInterval(checkSession, 8000);
+
+        // ── Countdown Timer Logic ─────────────────────────────────────────
+        let secondsLeft = 60;
+        const timerDisplay = document.getElementById('timer');
+        const timerBar = document.getElementById('timer-bar');
+
+        const countdown = setInterval(() => {
+            secondsLeft--;
+            const mins = Math.floor(secondsLeft / 60);
+            const secs = secondsLeft % 60;
+            timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+            const progress = (secondsLeft / 60) * 100;
+            timerBar.style.width = `${progress}%`;
+
+            if (secondsLeft <= 0) {
+                clearInterval(countdown);
+                timerDisplay.classList.add('text-error');
+                timerBar.classList.add('bg-error');
+            }
+        }, 1000);
+
+        // ── Input Logic ───────────────────────────────────────────────────
+        const codeInput = document.getElementById('lecture-code');
+        const nextBtn = document.getElementById('next-btn');
+
+        codeInput.addEventListener('input', (e) => {
+            e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+            nextBtn.disabled = e.target.value.length !== 6;
+        });
+
+        nextBtn.addEventListener('click', () => {
+            window.location.href = '../student_your_details/Students-details.html';
+        });
+
+        // Tab Visibility Logic (anti-tamper simulation)
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                console.log('Tab switch detected. Security protocol triggered.');
+            }
+        });
+
+        // Initial state
+        nextBtn.disabled = true;
+
+        // ── Session Done Detection (URL flag) ─────────────────────────────
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('done') === 'true') {
+            clearInterval(pollInterval);
+            gate.classList.add('hidden');
+            mainContent.style.display = '';
+            const overlay = document.getElementById('session-done-overlay');
+            const lecturerEl = document.getElementById('lecturer-name-display');
+            lecturerEl.textContent = localStorage.getItem('coreattend_lecturer') || 'Your Lecturer';
+            overlay.classList.remove('hidden');
+        }
+
+        // ── Lecturer Access Modal ──────────────────────────────────────────
+        const LECTURER_CODE = 'LECT2025';       // Private code for lecturer entry
+        const PIN_COUNT = 8;                      // Number of PIN boxes
+        const modalBackdrop = document.getElementById('lecturer-modal-backdrop');
+        const pinRow = document.getElementById('pin-row');
+        const pinError = document.getElementById('pin-error');
+        const pinBoxes = Array.from({ length: PIN_COUNT }, (_, i) => document.getElementById('p' + i));
+
+        function openLecturerModal() {
+            modalBackdrop.classList.add('open');
+            pinBoxes.forEach(b => { b.value = ''; b.classList.remove('error'); });
+            pinError.textContent = '';
+            setTimeout(() => pinBoxes[0].focus(), 400);
+        }
+
+        function closeLecturerModal() {
+            modalBackdrop.classList.remove('open');
+            pinBoxes.forEach(b => { b.value = ''; b.classList.remove('error'); });
+            pinError.textContent = '';
+        }
+
+        function handleBackdropClick(e) {
+            if (e.target === modalBackdrop) closeLecturerModal();
+        }
+
+        // Auto-advance to next box on input, go back on backspace
+        pinBoxes.forEach((box, idx) => {
+            box.addEventListener('input', (e) => {
+                box.value = box.value.toUpperCase();
+                box.classList.remove('error');
+                pinError.textContent = '';
+                if (box.value && idx < PIN_COUNT - 1) {
+                    pinBoxes[idx + 1].focus();
+                }
+                // Auto-submit when all boxes filled
+                if (pinBoxes.every(b => b.value.length === 1)) {
+                    verifyLecturerCode();
+                }
+            });
+            box.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !box.value && idx > 0) {
+                    pinBoxes[idx - 1].focus();
+                }
+                if (e.key === 'Enter') {
+                    verifyLecturerCode();
+                }
+            });
+        });
+
+        function verifyLecturerCode() {
+            const entered = pinBoxes.map(b => b.value).join('');
+            if (entered.length < PIN_COUNT) {
+                pinError.textContent = 'Please enter all ' + PIN_COUNT + ' characters';
+                return;
+            }
+            if (entered === LECTURER_CODE) {
+                // Success — redirect to dashboard
+                pinError.textContent = '';
+                pinRow.classList.remove('shake');
+                window.location.href = '../lecturer_dashboard/lecturer-dashboard.html';
+            } else {
+                // Wrong code — shake + red
+                pinError.textContent = 'Invalid access code. Try again.';
+                pinBoxes.forEach(b => b.classList.add('error'));
+                pinRow.classList.remove('shake');
+                void pinRow.offsetWidth; // force reflow for re-trigger
+                pinRow.classList.add('shake');
+                setTimeout(() => {
+                    pinBoxes.forEach(b => { b.value = ''; b.classList.remove('error'); });
+                    pinBoxes[0].focus();
+                }, 600);
+            }
+        }
+    </script>
+
+</html>

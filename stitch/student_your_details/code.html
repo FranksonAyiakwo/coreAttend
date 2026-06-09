@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>CheckIn Pro - Student Attendance</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#d8dadc",
+                        "tertiary-fixed-dim": "#89ceff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f7f9fb",
+                        "primary-fixed": "#dce1ff",
+                        "primary": "#00236f",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#54647a",
+                        "inverse-surface": "#2d3133",
+                        "inverse-primary": "#b6c4ff",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "surface-variant": "#e0e3e5",
+                        "tertiary-fixed": "#c9e6ff",
+                        "surface-container-low": "#f2f4f6",
+                        "error": "#ba1a1a",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#004c6e",
+                        "surface-container-highest": "#e0e3e5",
+                        "outline-variant": "#c5c5d3",
+                        "secondary": "#505f76",
+                        "tertiary-container": "#004565",
+                        "surface-container-high": "#e6e8ea",
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#444651",
+                        "primary-container": "#1e3a8a",
+                        "on-tertiary-fixed": "#001e2f",
+                        "surface-container": "#eceef0",
+                        "on-tertiary-container": "#36b6fb",
+                        "tertiary": "#002e44",
+                        "secondary-container": "#d0e1fb",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#00164e",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "primary-fixed-dim": "#b6c4ff",
+                        "on-secondary-fixed": "#0b1c30",
+                        "background": "#f7f9fb",
+                        "surface-bright": "#f7f9fb",
+                        "on-primary-fixed-variant": "#264191",
+                        "on-primary-container": "#90a8ff",
+                        "outline": "#757682",
+                        "on-surface": "#191c1e",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-error-container": "#93000a",
+                        "surface-tint": "#4059aa",
+                        "on-background": "#191c1e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "base": "4px",
+                        "margin-desktop": "40px",
+                        "max-width": "1280px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-md": ["JetBrains Mono"],
+                        "label-sm": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .security-scanline {
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 35, 111, 0.03) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+
+        .timer-glow {
+            box-shadow: 0 0 15px rgba(54, 182, 251, 0.2);
+        }
+    </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+
+<body
+    class="bg-surface text-on-surface font-body-md selection:bg-primary-container selection:text-on-primary-container">
+    <!-- TopAppBar -->
+    <header
+        class="flex justify-between items-center w-full px-gutter h-16 fixed top-0 z-50 bg-surface border-b border-outline-variant">
+        <div class="flex items-center gap-2">
+            <span class="font-headline-md text-headline-md font-bold text-primary">CheckIn Pro</span>
+        </div>
+        <div class="flex items-center gap-4">
+            <button class="p-2 hover:bg-surface-container-high transition-colors rounded-full">
+                <span class="material-symbols-outlined text-secondary">notifications</span>
+            </button>
+            <button class="p-2 hover:bg-surface-container-high transition-colors rounded-full">
+                <span class="material-symbols-outlined text-secondary">help</span>
+            </button>
+        </div>
+    </header>
+    <main class="min-h-screen pt-24 pb-32 px-4 md:px-gutter max-w-max-width mx-auto flex flex-col items-center">
+        <!-- Countdown Timer Component -->
+        <div class="w-full max-w-md mb-8">
+            <div
+                class="bg-primary px-6 py-4 rounded-xl flex items-center justify-between timer-glow border border-tertiary-container">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-on-tertiary-container animate-pulse">timer</span>
+                    <span class="font-label-md text-label-md text-on-primary uppercase tracking-widest">Session Expires
+                        In</span>
+                </div>
+                <div class="font-label-md text-headline-md text-on-tertiary-container tabular-nums" id="countdown">00:59
+                </div>
+            </div>
+        </div>
+        <!-- Security Status Banner -->
+        <div
+            class="w-full max-w-md mb-6 p-4 bg-surface-container-low border border-outline-variant rounded-lg flex items-start gap-4">
+            <span class="material-symbols-outlined text-primary mt-1"
+                style="font-variation-settings: 'FILL' 1;">security</span>
+            <div>
+                <p class="font-label-md text-label-md text-primary font-bold">Secure Environment Active</p>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Screenshot protection active • Focus
+                    detection enabled</p>
+            </div>
+        </div>
+        <!-- Attendance Form Card -->
+        <div class="w-full max-w-md bg-surface-container-lowest border border-outline-variant rounded-xl p-8 shadow-sm">
+            <h1 class="font-headline-md text-headline-md text-on-surface mb-2">Student Details</h1>
+            <p class="font-body-sm text-body-sm text-on-surface-variant mb-8">Please provide your institutional
+                credentials to verify attendance for <span class="font-bold text-primary">CS101: Data Structures</span>.
+            </p>
+            <form class="space-y-6" id="attendanceForm">
+                <!-- Name Field -->
+                <div class="space-y-2">
+                    <label class="font-label-md text-label-md text-secondary block" for="studentName">FULL NAME</label>
+                    <div class="relative">
+                        <input
+                            class="w-full bg-surface border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary rounded-lg px-4 py-3 outline-none transition-all font-body-md"
+                            id="studentName" name="studentName" placeholder="e.g. Jonathan Doe" required=""
+                            type="text" />
+                        <span
+                            class="material-symbols-outlined absolute right-3 top-3 text-outline-variant">person</span>
+                    </div>
+                </div>
+                <!-- Index Number Field -->
+                <div class="space-y-2">
+                    <label class="font-label-md text-label-md text-secondary block" for="indexNumber">INDEX
+                        NUMBER</label>
+                    <div class="relative">
+                        <input
+                            class="w-full bg-surface border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary rounded-lg px-4 py-3 outline-none transition-all font-label-md uppercase"
+                            id="indexNumber" name="indexNumber" placeholder="STU-000-000" required="" type="text" />
+                        <span class="material-symbols-outlined absolute right-3 top-3 text-outline-variant">badge</span>
+                    </div>
+                </div>
+                <!-- Class Dropdown -->
+                <div class="space-y-2">
+                    <label class="font-label-md text-label-md text-secondary block" for="studentClass">CLASS
+                        GROUP</label>
+                    <div class="relative">
+                        <select
+                            class="w-full bg-surface border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary rounded-lg px-4 py-3 outline-none transition-all font-body-md appearance-none"
+                            id="studentClass" name="studentClass" required="">
+                            <option disabled="" selected="" value="">Select your group</option>
+                            <option value="I.T A">I.T A</option>
+                            <option value="I.T B">I.T B</option>
+                            <option value="I.T C">I.T C</option>
+                            <option value="I.T D">I.T D</option>
+                            <option value="I.T E">I.T E</option>
+                        </select>
+                        <span
+                            class="material-symbols-outlined absolute right-3 top-3 text-outline-variant pointer-events-none">expand_more</span>
+                    </div>
+                </div>
+                <!-- Submit Button -->
+                <button
+                    class="w-full bg-primary text-on-primary py-4 rounded-lg font-bold hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2 mt-8"
+                    type="submit">
+                    <span class="material-symbols-outlined">how_to_reg</span>
+                    SUBMIT ATTENDANCE
+                </button>
+            </form>
+        </div>
+        <!-- Subtle Security Overlay Warning -->
+        <div class="mt-12 text-center opacity-50 select-none pointer-events-none">
+            <p class="font-label-sm text-label-sm uppercase tracking-tighter">Encrypted Academic Record Entry</p>
+            <p class="font-label-sm text-label-sm">Session ID: PRO-9923-BCA-X</p>
+        </div>
+    </main>
+    <!-- BottomNavBar -->
+    <nav
+        class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 lg:hidden bg-surface border-t border-outline-variant shadow-lg">
+        <a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-variant transition-colors rounded-full"
+            href="#">
+            <span class="material-symbols-outlined">home</span>
+            <span class="font-label-sm text-label-sm">Home</span>
+        </a>
+        <a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1"
+            href="#">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">qr_code_scanner</span>
+            <span class="font-label-sm text-label-sm">Scan</span>
+        </a>
+        <a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-variant transition-colors rounded-full"
+            href="#">
+            <span class="material-symbols-outlined">history</span>
+            <span class="font-label-sm text-label-sm">History</span>
+        </a>
+        <a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-variant transition-colors rounded-full"
+            href="#">
+            <span class="material-symbols-outlined">person</span>
+            <span class="font-label-sm text-label-sm">Profile</span>
+        </a>
+    </nav>
+    <!-- Security Focus Overlay (Active on focus loss) -->
+    <div class="fixed inset-0 z-[60] bg-primary/40 backdrop-blur-md flex items-center justify-center hidden opacity-0 transition-opacity duration-300"
+        id="securityOverlay">
+        <div class="bg-surface-container-lowest p-8 rounded-xl max-w-sm text-center border border-outline shadow-2xl">
+            <span class="material-symbols-outlined text-error text-6xl mb-4">visibility_off</span>
+            <h2 class="font-headline-md text-headline-md text-on-surface mb-2">Screen Obscured</h2>
+            <p class="font-body-md text-body-md text-on-surface-variant mb-6">Security policy prevents viewing this form
+                when the application is not in focus.</p>
+            <button class="w-full bg-primary text-on-primary py-3 rounded-lg font-bold"
+                onclick="dismissSecurity()">RESUME SESSION</button>
+        </div>
+    </div>
+    <!-- Background Pattern/Scanline -->
+    <div class="fixed inset-0 security-scanline opacity-30 pointer-events-none -z-10"></div>
+    <script>
+        // Countdown Logic
+        let timeLeft = 59;
+        const countdownEl = document.getElementById('countdown');
+
+        const timer = setInterval(() => {
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                countdownEl.innerText = "00:00";
+                countdownEl.classList.add('text-error');
+                alert('Session expired. Please scan the QR code again.');
+                window.location.reload();
+            } else {
+                const seconds = timeLeft < 10 ? '0' + timeLeft : timeLeft;
+                countdownEl.innerText = `00:${seconds}`;
+
+                if (timeLeft <= 10) {
+                    countdownEl.classList.add('text-error');
+                    countdownEl.classList.remove('text-on-tertiary-container');
+                }
+            }
+            timeLeft -= 1;
+        }, 1000);
+
+        // Security Focus Simulation
+        const overlay = document.getElementById('securityOverlay');
+
+        window.addEventListener('blur', () => {
+            overlay.classList.remove('hidden');
+            setTimeout(() => overlay.classList.add('opacity-100'), 10);
+        });
+
+        function dismissSecurity() {
+            overlay.classList.remove('opacity-100');
+            setTimeout(() => overlay.classList.add('hidden'), 300);
+        }
+
+        // Form Submission Interaction
+        document.getElementById('attendanceForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalContent = btn.innerHTML;
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> VERIFYING...';
+
+            setTimeout(() => {
+                btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> SUBMITTED';
+                btn.classList.replace('bg-primary', 'bg-tertiary-container');
+                btn.classList.replace('text-on-primary', 'text-on-tertiary-container');
+
+                setTimeout(() => {
+                    window.location.href = '../success_attendance_recorded/code.html';
+                }, 500);
+            }, 1500);
+        });
+        const supabaseUrl = "https://jyuubfgzjtwxyzonigkh.supabase.co";
+        const supabaseKey = "sb_publishable_Hju0wIL51wQFY2jb6ULrDQ_8HA-6Rq0";
+
+        const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+        document.getElementById("studentForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById("name").value;
+            const indexNumber = document.getElementById("index").value;
+            const studentClass = document.getElementById("class").value;
+
+            const { data, error } = await supabaseClient
+                .from("students")
+                .insert([
+                    {
+                        name: name,
+                        index_number: indexNumber,
+                        class: studentClass
+                    }
+                ]);
+
+            if (error) {
+                console.log(error);
+                alert("❌ Error saving student");
+            } else {
+                alert("✅ Student saved successfully!");
+                document.getElementById("studentForm").reset();
+            }
+        });
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</body>
+
+</html>

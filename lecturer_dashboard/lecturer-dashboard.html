@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Lecturer Dashboard | CoreAttend</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#d8dadc",
+                        "tertiary-fixed-dim": "#89ceff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f7f9fb",
+                        "primary-fixed": "#dce1ff",
+                        "primary": "#00236f",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#54647a",
+                        "inverse-surface": "#2d3133",
+                        "inverse-primary": "#b6c4ff",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "surface-variant": "#e0e3e5",
+                        "tertiary-fixed": "#c9e6ff",
+                        "surface-container-low": "#f2f4f6",
+                        "error": "#ba1a1a",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#004c6e",
+                        "surface-container-highest": "#e0e3e5",
+                        "outline-variant": "#c5c5d3",
+                        "secondary": "#505f76",
+                        "tertiary-container": "#004565",
+                        "surface-container-high": "#e6e8ea",
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#444651",
+                        "primary-container": "#1e3a8a",
+                        "on-tertiary-fixed": "#001e2f",
+                        "surface-container": "#eceef0",
+                        "on-tertiary-container": "#36b6fb",
+                        "tertiary": "#002e44",
+                        "secondary-container": "#d0e1fb",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#00164e",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "primary-fixed-dim": "#b6c4ff",
+                        "on-secondary-fixed": "#0b1c30",
+                        "background": "#f7f9fb",
+                        "surface-bright": "#f7f9fb",
+                        "on-primary-fixed-variant": "#264191",
+                        "on-primary-container": "#90a8ff",
+                        "outline": "#757682",
+                        "on-surface": "#191c1e",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-error-container": "#93000a",
+                        "surface-tint": "#4059aa",
+                        "on-background": "#191c1e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "base": "4px",
+                        "margin-desktop": "40px",
+                        "max-width": "1280px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-md": ["JetBrains Mono"],
+                        "label-sm": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .zebra-list div:nth-child(even) {
+            background-color: #f2f4f6;
+        }
+
+        /* ── Dark Mode Overrides ─────────────────────────────────────── */
+        html.dark body {
+            background-color: #111316;
+            color: #e2e4e8;
+        }
+
+        html.dark header,
+        html.dark aside,
+        html.dark nav {
+            background-color: #1a1d21 !important;
+            border-color: #2e3035 !important;
+        }
+
+        html.dark main {
+            background-color: #111316 !important;
+        }
+
+        html.dark .bg-surface-container-lowest {
+            background-color: #1e2126 !important;
+        }
+
+        html.dark .bg-surface-container-low {
+            background-color: #1a1d21 !important;
+        }
+
+        html.dark .bg-surface-container-high {
+            background-color: #2a2d33 !important;
+        }
+
+        html.dark .bg-surface-container-highest {
+            background-color: #32353c !important;
+        }
+
+        html.dark .bg-secondary-container {
+            background-color: #1c2b3a !important;
+        }
+
+        html.dark .text-on-surface {
+            color: #e2e4e8 !important;
+        }
+
+        html.dark .text-on-surface-variant {
+            color: #9da0ab !important;
+        }
+
+        html.dark .border-outline-variant {
+            border-color: #2e3035 !important;
+        }
+
+        html.dark .bg-surface {
+            background-color: #111316 !important;
+        }
+
+        html.dark .text-primary {
+            color: #b6c4ff !important;
+        }
+
+        html.dark .bg-primary {
+            background-color: #00236f !important;
+        }
+
+        /* ── Settings Panel ─────────────────────────────────────────── */
+        #settings-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 320px;
+            height: 100vh;
+            z-index: 200;
+            transform: translateX(110%);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #ffffff;
+            border-left: 1px solid #c5c5d3;
+            box-shadow: -8px 0 32px rgba(0, 0, 0, 0.12);
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        html.dark #settings-panel {
+            background: #1a1d21;
+            border-color: #2e3035;
+            box-shadow: -8px 0 32px rgba(0, 0, 0, 0.5);
+        }
+
+        #settings-panel.open {
+            transform: translateX(0);
+        }
+
+        #settings-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.35);
+            z-index: 199;
+            backdrop-filter: blur(2px);
+        }
+
+        #settings-backdrop.open {
+            display: block;
+        }
+
+        /* ── Theme Toggle Switch ─────────────────────────────────────── */
+        .theme-toggle {
+            position: relative;
+            width: 56px;
+            height: 30px;
+            cursor: pointer;
+        }
+
+        .theme-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .theme-toggle .slider {
+            position: absolute;
+            inset: 0;
+            background: #c5c5d3;
+            border-radius: 30px;
+            transition: background 0.3s;
+        }
+
+        .theme-toggle input:checked+.slider {
+            background: #00236f;
+        }
+
+        .theme-toggle .slider::before {
+            content: '';
+            position: absolute;
+            left: 3px;
+            bottom: 3px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #fff;
+            transition: transform 0.3s;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-toggle input:checked+.slider::before {
+            transform: translateX(26px);
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col">
+    <!-- TopAppBar -->
+    <header
+        class="flex justify-between items-center w-full px-gutter h-16 fixed top-0 z-50 bg-surface border-b border-outline-variant">
+        <div class="flex items-center gap-4">
+            <span class="font-headline-md text-headline-md font-bold text-primary">CoreAttend</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <img alt="Department of Information Technology & Digital Services logo" class="h-10 w-10 object-contain"
+                src="../itds.png" />
+            <img alt="University crest - Knowledge Integrity Impact" class="h-10 w-10 object-contain"
+                src="../uenr.png" />
+        </div>
+    </header>
+    <div class="flex flex-1 pt-16 h-screen">
+        <!-- SideNavBar -->
+        <aside
+            class="hidden lg:flex flex-col h-full py-base px-base space-y-2 border-r border-outline-variant bg-surface-container-low w-64 fixed left-0">
+            <div class="px-4 py-6 mb-4">
+                <h2 class="font-headline-md text-primary text-headline-md">Admin Portal</h2>
+                <p class="font-label-sm text-on-surface-variant">Academic Integrity Office</p>
+            </div>
+            <nav class="flex-1 space-y-1">
+                <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest transition-all rounded-full font-label-md"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    <span>Dashboard</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container rounded-full font-bold font-label-md"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="school">school</span>
+                    <span>Classes</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest transition-all rounded-full font-label-md"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="history">history</span>
+                    <span>History</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest transition-all rounded-full font-label-md"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="security">security</span>
+                    <span>Security</span>
+                </a>
+            </nav>
+            <div class="pt-4 border-t border-outline-variant space-y-1">
+                <button id="open-settings-btn" onclick="openSettings()"
+                    class="w-full flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest transition-all rounded-full font-label-md">
+                    <span class="material-symbols-outlined" data-icon="settings">settings</span>
+                    <span>Settings</span>
+                </button>
+                <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest transition-all rounded-full font-label-md"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="logout">logout</span>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+        <!-- Main Content -->
+        <main class="flex-1 lg:ml-64 p-gutter overflow-y-auto bg-surface">
+            <div class="max-w-max-width mx-auto">
+                <header class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                    <div>
+                        <h1 class="font-headline-lg text-headline-lg text-primary mb-2">My Assigned Classes</h1>
+                        <p class="text-on-surface-variant font-body-md">Manage attendance sessions and review student
+                            logs.</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+                        <!-- Lecturer Name Input -->
+                        <div
+                            class="flex items-center gap-2 bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2">
+                            <span class="material-symbols-outlined text-secondary text-[20px]"
+                                style="font-variation-settings:'FILL' 1;">person</span>
+                            <input id="lecturer-name-input" type="text" placeholder="Your name (shown to students)"
+                                class="bg-transparent font-label-md text-on-surface outline-none placeholder:text-on-surface-variant w-48"
+                                maxlength="50" />
+                        </div>
+                        <div
+                            class="bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 flex items-center gap-3">
+                            <span class="w-3 h-3 rounded-full bg-error"></span>
+                            <span class="font-label-md text-on-surface">System Status: Secure</span>
+                        </div>
+                    </div>
+                </header>
+                <script>
+                    // Persist lecturer name to localStorage
+                    const nameInput = document.getElementById('lecturer-name-input');
+                    const saved = localStorage.getItem('coreattend_lecturer');
+                    if (saved) nameInput.value = saved;
+                    nameInput.addEventListener('input', () => {
+                        localStorage.setItem('coreattend_lecturer', nameInput.value.trim() || 'Your Lecturer');
+                    });
+                </script>
+                <!-- Bento Grid for Classes -->
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <!-- Class Card 1 (INFT 258) -->
+                    <div
+                        class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col hover:shadow-lg transition-all duration-200 group">
+                        <div class="flex justify-between items-start mb-6">
+                            <div class="p-3 bg-secondary-container rounded-lg text-primary">
+                                <span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+                            </div>
+                            <span
+                                class="px-3 py-1 bg-surface-container-high text-on-surface-variant rounded-full text-label-sm font-label-sm">CLOSED</span>
+                        </div>
+                        <h3 class="font-headline-md text-primary mb-1">INFT 258</h3>
+                        <p class="text-on-surface-variant font-body-sm mb-6">SOFTWARE ENGINEERING</p>
+                        <div class="space-y-3 mb-8 flex-1">
+                            <div class="flex items-center gap-3 text-on-surface-variant">
+                                <span class="material-symbols-outlined text-[20px]" data-icon="schedule">schedule</span>
+                                <span class="font-label-sm">Wed • 3:00 - 4:55 PM</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-on-surface-variant">
+                                <span class="material-symbols-outlined text-[20px]"
+                                    data-icon="location_on">location_on</span>
+                                <span class="font-label-sm">LTS 1</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-on-surface-variant">
+                                <span class="material-symbols-outlined text-[20px]" data-icon="group">group</span>
+                                <span class="font-label-sm">202 Students Enrolled</span>
+                            </div>
+                        </div>
+                        <!-- Session status badge shown after session starts -->
+                        <div id="session-status-bar" class="hidden mb-3 flex items-center gap-2 px-3 py-2 bg-error-container/30 border border-error/30 rounded-lg">
+                            <span class="relative flex h-3 w-3">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-error opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-error"></span>
+                            </span>
+                            <span class="font-label-sm text-error" id="session-status-text">Session Active — students can now submit</span>
+                        </div>
+                        <button id="start-btn"
+                            onclick="handleSessionBtn()"
+                            class="w-full bg-primary text-on-primary py-3 rounded-lg font-bold hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined" data-icon="play_arrow">play_arrow</span>
+                            Start Attendance
+                        </button>
+                    </div>
+                    <!-- Attendance Records (Full Width, Live from Supabase) -->
+                    <div
+                        class="xl:col-span-3 bg-surface-container-lowest border border-outline-variant rounded-xl p-6 overflow-hidden">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                            <div>
+                                <h3 class="font-headline-md text-primary">Live Attendance Records</h3>
+                                <p class="font-body-sm text-on-surface-variant mt-1" id="recordCount">Loading...</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <button onclick="loadAttendance()"
+                                    class="flex items-center gap-2 px-4 py-2 bg-surface-container-high text-on-surface rounded-lg font-label-md hover:bg-surface-container-highest transition-all">
+                                    <span class="material-symbols-outlined text-[18px]">refresh</span>
+                                    Refresh
+                                </button>
+                                <button id="downloadBtn" onclick="downloadExcel()"
+                                    class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg font-label-md hover:opacity-90 active:scale-95 transition-all">
+                                    <span class="material-symbols-outlined text-[18px]">download</span>
+                                    Download Excel
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Table -->
+                        <div class="overflow-x-auto rounded-lg border border-outline-variant">
+                            <table class="w-full text-left">
+                                <thead class="bg-secondary-container text-on-secondary-container">
+                                    <tr>
+                                        <th class="px-4 py-3 font-label-md text-label-md uppercase">#</th>
+                                        <th class="px-4 py-3 font-label-md text-label-md uppercase">Full Name</th>
+                                        <th class="px-4 py-3 font-label-md text-label-md uppercase">Index Number</th>
+                                        <th class="px-4 py-3 font-label-md text-label-md uppercase">Class Group</th>
+                                        <th class="px-4 py-3 font-label-md text-label-md uppercase">Submitted At</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="attendanceTableBody" class="divide-y divide-outline-variant">
+                                    <tr>
+                                        <td colspan="5"
+                                            class="px-4 py-8 text-center text-on-surface-variant font-body-sm">
+                                            <span
+                                                class="material-symbols-outlined animate-spin block mx-auto mb-2">sync</span>
+                                            Loading attendance records...
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- BottomNavBar (Mobile Only) -->
+    <nav
+        class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 lg:hidden bg-surface border-t border-outline-variant shadow-lg">
+        <a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1" href="#">
+            <span class="material-symbols-outlined" data-icon="home">home</span>
+            <span class="font-label-sm text-label-sm">Home</span>
+        </a>
+        <a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1"
+            href="#">
+            <span class="material-symbols-outlined" data-icon="school">school</span>
+            <span class="font-label-sm text-label-sm">Classes</span>
+        </a>
+        <a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1" href="#">
+            <span class="material-symbols-outlined" data-icon="history">history</span>
+            <span class="font-label-sm text-label-sm">History</span>
+        </a>
+        <button onclick="openSettings()"
+            class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1">
+            <span class="material-symbols-outlined" data-icon="settings">settings</span>
+            <span class="font-label-sm text-label-sm">Settings</span>
+        </button>
+    </nav>
+
+    <!-- Settings Backdrop -->
+    <div id="settings-backdrop" onclick="closeSettings()"></div>
+
+    <!-- Settings Panel -->
+    <div id="settings-panel">
+        <!-- Panel Header -->
+        <div class="flex items-center justify-between px-6 py-5 border-b border-outline-variant">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary"
+                    style="font-variation-settings:'FILL' 1;">settings</span>
+                <h2 class="font-headline-md text-headline-md text-primary">Settings</h2>
+            </div>
+            <button onclick="closeSettings()"
+                class="p-2 rounded-full hover:bg-surface-container-high transition-all text-on-surface-variant">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <!-- Panel Body -->
+        <div class="flex-1 px-6 py-6 space-y-6 overflow-y-auto">
+            <!-- Theme Row -->
+            <div
+                class="flex items-center justify-between p-4 bg-surface-container-low border border-outline-variant rounded-xl">
+                <div class="flex items-center gap-3">
+                    <span id="theme-icon" class="material-symbols-outlined text-primary"
+                        style="font-variation-settings:'FILL' 1;">light_mode</span>
+                    <div>
+                        <p class="font-label-md text-on-surface" id="theme-label">Light Mode</p>
+                        <p class="font-body-sm text-on-surface-variant text-[12px]">Switch between themes</p>
+                    </div>
+                </div>
+                <label class="theme-toggle" title="Toggle dark / light mode">
+                    <input type="checkbox" id="theme-toggle-input" onchange="toggleTheme(this.checked)" />
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <!-- About Row -->
+            <div class="p-4 bg-surface-container-low border border-outline-variant rounded-xl">
+                <p class="font-label-md text-on-surface mb-1">CoreAttend</p>
+                <p class="font-body-sm text-on-surface-variant">Version 1.0 · Academic Integrity Office</p>
+            </div>
+        </div>
+    </div>
+    <!-- Floating Security Status Overlay (Desktop micro-interaction) -->
+    <div class="hidden lg:flex fixed bottom-8 right-8 bg-inverse-surface text-inverse-on-surface rounded-full pl-3 pr-6 py-2 items-center gap-3 shadow-xl transition-transform hover:scale-105 cursor-pointer z-50"
+        id="security-pulse">
+        <div class="relative flex items-center justify-center">
+            <span class="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-secondary-fixed opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-secondary-fixed"></span>
+        </div>
+        <span class="font-label-md text-label-md uppercase tracking-widest">End-to-End Encrypted</span>
+    </div>
+    <script>
+        // ── Supabase Setup ──────────────────────────────────────────────
+        const supabaseUrl = "https://lmbyzxcvjqmoemfaprzk.supabase.co";
+        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtYnl6eGN2anFtb2VtZmFwcnprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3Mzk1MTYsImV4cCI6MjA5NjMxNTUxNn0.HAhSdN9pD-ccYneTc1BGI4eaPYGXqZ0l0i0pOiQpaic";
+        const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+        let attendanceData = [];
+
+        // ── Load Attendance from Supabase ───────────────────────────────
+        async function loadAttendance() {
+            const tbody = document.getElementById('attendanceTableBody');
+            const countEl = document.getElementById('recordCount');
+
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="5" class="px-4 py-8 text-center text-on-surface-variant font-body-sm">
+                        <span class="material-symbols-outlined animate-spin block mx-auto mb-2">sync</span>
+                        Loading attendance records...
+                    </td>
+                </tr>`;
+
+            const { data, error } = await supabaseClient
+                .from('students')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="px-4 py-8 text-center text-error font-body-sm">
+                            <span class="material-symbols-outlined block mx-auto mb-2">error</span>
+                            Failed to load records: ${error.message}
+                        </td>
+                    </tr>`;
+                countEl.textContent = 'Error loading data';
+                return;
+            }
+
+            attendanceData = data;
+            countEl.textContent = `${data.length} student${data.length !== 1 ? 's' : ''} signed attendance`;
+
+            if (data.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="px-4 py-8 text-center text-on-surface-variant font-body-sm">
+                            <span class="material-symbols-outlined block mx-auto mb-2">inbox</span>
+                            No attendance records yet.
+                        </td>
+                    </tr>`;
+                return;
+            }
+
+            tbody.innerHTML = data.map((row, index) => {
+                const date = new Date(row.created_at);
+                const formatted = date.toLocaleDateString('en-GB', {
+                    day: '2-digit', month: 'short', year: 'numeric',
+                    hour: '2-digit', minute: '2-digit'
+                });
+                const rowBg = index % 2 === 0 ? 'bg-surface-container-lowest' : 'bg-surface-container-low';
+                return `
+                    <tr class="${rowBg} hover:bg-secondary-container transition-colors">
+                        <td class="px-4 py-3 font-label-md text-on-surface-variant">${index + 1}</td>
+                        <td class="px-4 py-3 font-body-sm text-on-surface font-bold">${row.name}</td>
+                        <td class="px-4 py-3 font-label-md text-primary uppercase">${row.index_number}</td>
+                        <td class="px-4 py-3">
+                            <span class="px-2 py-1 bg-secondary-container text-on-secondary-container rounded font-label-sm">${row.class}</span>
+                        </td>
+                        <td class="px-4 py-3 font-body-sm text-on-surface-variant">${formatted}</td>
+                    </tr>`;
+            }).join('');
+        }
+
+        // ── Download as Excel ───────────────────────────────────────────
+        function downloadExcel() {
+            if (attendanceData.length === 0) {
+                alert('No attendance records to download.');
+                return;
+            }
+
+            const rows = attendanceData.map((row, index) => ({
+                '#': index + 1,
+                'Full Name': row.name,
+                'Index Number': row.index_number,
+                'Class Group': row.class,
+                'Submitted At': new Date(row.created_at).toLocaleString('en-GB')
+            }));
+
+            const worksheet = XLSX.utils.json_to_sheet(rows);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Attendance');
+
+            // Auto-fit column widths
+            worksheet['!cols'] = [
+                { wch: 5 }, { wch: 30 }, { wch: 18 }, { wch: 12 }, { wch: 22 }
+            ];
+
+            const today = new Date().toISOString().split('T')[0];
+            XLSX.writeFile(workbook, `Attendance_${today}.xlsx`);
+        }
+
+        // ── Session Management (Supabase) ────────────────────────────────
+        const COURSE_ID = 'INFT258'; // unique ID for this course
+        let sessionActive = false;
+        let currentSessionId = null;
+
+        const startBtn = document.getElementById('start-btn');
+        const statusBar = document.getElementById('session-status-bar');
+        const statusText = document.getElementById('session-status-text');
+        const courseBadge = document.querySelector('.text-label-sm.font-label-sm');
+
+        // Check if a session is already running (e.g. page reload)
+        async function checkExistingSession() {
+            const { data } = await supabaseClient
+                .from('sessions')
+                .select('*')
+                .eq('course_id', COURSE_ID)
+                .eq('status', 'active')
+                .limit(1)
+                .single();
+            if (data) {
+                currentSessionId = data.id;
+                setSessionActive(true);
+            }
+        }
+
+        async function handleSessionBtn() {
+            if (sessionActive) {
+                // End the session
+                startBtn.disabled = true;
+                startBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Ending...';
+                const { error } = await supabaseClient
+                    .from('sessions')
+                    .update({ status: 'closed', ended_at: new Date().toISOString() })
+                    .eq('id', currentSessionId);
+                if (!error) {
+                    currentSessionId = null;
+                    setSessionActive(false);
+                } else {
+                    alert('Failed to end session: ' + error.message);
+                }
+                startBtn.disabled = false;
+            } else {
+                // Start a new session
+                startBtn.disabled = true;
+                startBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Starting...';
+                const lecturerName = localStorage.getItem('coreattend_lecturer') || 'Lecturer';
+                const { data, error } = await supabaseClient
+                    .from('sessions')
+                    .insert([{
+                        course_id: COURSE_ID,
+                        course_name: 'INFT 258 – SOFTWARE ENGINEERING',
+                        lecturer_name: lecturerName,
+                        status: 'active',
+                        started_at: new Date().toISOString()
+                    }])
+                    .select()
+                    .single();
+                if (!error && data) {
+                    currentSessionId = data.id;
+                    setSessionActive(true);
+                } else {
+                    alert('Failed to start session: ' + (error ? error.message : 'unknown error'));
+                }
+                startBtn.disabled = false;
+            }
+        }
+
+        function setSessionActive(active) {
+            sessionActive = active;
+            if (active) {
+                startBtn.innerHTML = '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1;">stop_circle</span> End Session';
+                startBtn.classList.remove('bg-primary');
+                startBtn.classList.add('bg-error', 'text-on-error');
+                statusBar.classList.remove('hidden');
+                statusText.textContent = 'Session Active — students can now submit attendance';
+                if (courseBadge) {
+                    courseBadge.textContent = 'ACTIVE';
+                    courseBadge.classList.remove('bg-surface-container-high', 'text-on-surface-variant');
+                    courseBadge.classList.add('bg-error-container', 'text-error');
+                }
+            } else {
+                startBtn.innerHTML = '<span class="material-symbols-outlined">play_arrow</span> Start Attendance';
+                startBtn.classList.remove('bg-error', 'text-on-error');
+                startBtn.classList.add('bg-primary');
+                statusBar.classList.add('hidden');
+                if (courseBadge) {
+                    courseBadge.textContent = 'CLOSED';
+                    courseBadge.classList.remove('bg-error-container', 'text-error');
+                    courseBadge.classList.add('bg-surface-container-high', 'text-on-surface-variant');
+                }
+            }
+        }
+
+        checkExistingSession();
+
+        // ── Load on page ready ──────────────────────────────────────────
+        loadAttendance();
+
+        // ── Settings Panel ─────────────────────────────────────────────
+        function openSettings() {
+            document.getElementById('settings-panel').classList.add('open');
+            document.getElementById('settings-backdrop').classList.add('open');
+        }
+        function closeSettings() {
+            document.getElementById('settings-panel').classList.remove('open');
+            document.getElementById('settings-backdrop').classList.remove('open');
+        }
+
+        // ── Dark / Light Mode Toggle ────────────────────────────────────
+        const htmlEl = document.documentElement;
+        const themeIcon = document.getElementById('theme-icon');
+        const themeLabel = document.getElementById('theme-label');
+        const themeInput = document.getElementById('theme-toggle-input');
+
+        // Restore saved preference
+        const savedTheme = localStorage.getItem('coreattend_theme') || 'light';
+        if (savedTheme === 'dark') {
+            htmlEl.classList.replace('light', 'dark');
+            themeInput.checked = true;
+            themeIcon.textContent = 'dark_mode';
+            themeLabel.textContent = 'Dark Mode';
+        }
+
+        function toggleTheme(isDark) {
+            if (isDark) {
+                htmlEl.classList.replace('light', 'dark');
+                themeIcon.textContent = 'dark_mode';
+                themeLabel.textContent = 'Dark Mode';
+                localStorage.setItem('coreattend_theme', 'dark');
+            } else {
+                htmlEl.classList.replace('dark', 'light');
+                themeIcon.textContent = 'light_mode';
+                themeLabel.textContent = 'Light Mode';
+                localStorage.setItem('coreattend_theme', 'light');
+            }
+        }
+    </script>
+</body>
+
+</html>
