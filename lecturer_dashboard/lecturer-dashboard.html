@@ -409,7 +409,7 @@
                                 <h3 class="font-headline-md text-primary">Live Attendance Records</h3>
                                 <p class="font-body-sm text-on-surface-variant mt-1" id="recordCount">Loading...</p>
                             </div>
-                            <div class="flex items-center gap-3">
+                            <div class="flex flex-wrap items-center gap-3">
                                 <button onclick="loadAttendance()"
                                     class="flex items-center gap-2 px-4 py-2 bg-surface-container-high text-on-surface rounded-lg font-label-md hover:bg-surface-container-highest transition-all">
                                     <span class="material-symbols-outlined text-[18px]">refresh</span>
@@ -419,6 +419,11 @@
                                     class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg font-label-md hover:opacity-90 active:scale-95 transition-all">
                                     <span class="material-symbols-outlined text-[18px]">download</span>
                                     Download Excel
+                                </button>
+                                <button id="clearBtn" onclick="clearAttendance()"
+                                    class="flex items-center gap-2 px-4 py-2 bg-error-container text-error rounded-lg font-label-md hover:opacity-90 active:scale-95 transition-all">
+                                    <span class="material-symbols-outlined text-[18px]">delete</span>
+                                    Clear All
                                 </button>
                             </div>
                         </div>
@@ -595,6 +600,34 @@
                         <td class="px-4 py-3 font-body-sm text-on-surface-variant">${formatted}</td>
                     </tr>`;
             }).join('');
+        }
+
+        // ── Clear Attendance ────────────────────────────────────────────
+        async function clearAttendance() {
+            if (!confirm("⚠️ WARNING: Are you sure you want to delete ALL attendance records? This cannot be undone! Please make sure you have downloaded the Excel sheet first.")) {
+                return;
+            }
+            
+            const btn = document.getElementById('clearBtn');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">sync</span> Clearing...';
+            btn.disabled = true;
+
+            // Delete all rows where name is not null (which deletes everything)
+            const { error } = await supabaseClient
+                .from('students')
+                .delete()
+                .not('name', 'is', null);
+
+            if (error) {
+                alert("Failed to clear records: " + error.message);
+            } else {
+                alert("All attendance records have been permanently deleted.");
+                loadAttendance();
+            }
+            
+            btn.innerHTML = originalHTML;
+            btn.disabled = false;
         }
 
         // ── Download as Excel ───────────────────────────────────────────
