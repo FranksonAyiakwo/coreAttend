@@ -217,22 +217,39 @@
             <span class="material-symbols-outlined" data-icon="home">home</span>
             <span class="font-label-sm text-label-sm">Home</span>
         </a>
-        <a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-variant transition-all rounded-full"
-            href="#">
-            <span class="material-symbols-outlined" data-icon="qr_code_scanner">qr_code_scanner</span>
-            <span class="font-label-sm text-label-sm">Scan</span>
-        </a>
         <a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 scale-90 transition-all"
             href="#">
-            <span class="material-symbols-outlined" data-icon="history">history</span>
-            <span class="font-label-sm text-label-sm">History</span>
+            <span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+            <span class="font-label-sm text-label-sm">Success</span>
         </a>
-        <a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-variant transition-all rounded-full"
-            href="#">
-            <span class="material-symbols-outlined" data-icon="person">person</span>
-            <span class="font-label-sm text-label-sm">Profile</span>
-        </a>
+        <button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-variant transition-all rounded-full cursor-pointer"
+            onclick="document.getElementById('settings-modal').classList.remove('hidden')">
+            <span class="material-symbols-outlined" data-icon="settings">settings</span>
+            <span class="font-label-sm text-label-sm">Settings</span>
+        </button>
     </nav>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="hidden fixed inset-0 z-50 bg-black/50 flex items-end md:items-center justify-center">
+        <div class="bg-surface-container-lowest w-full md:w-96 rounded-t-2xl md:rounded-2xl p-6 transform transition-all border border-outline-variant">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="font-headline-md text-primary">Settings</h2>
+                <button onclick="document.getElementById('settings-modal').classList.add('hidden')" class="text-on-surface-variant hover:bg-surface-variant rounded-full p-1 flex items-center justify-center">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="flex gap-4">
+                <button onclick="document.documentElement.classList.remove('dark'); document.documentElement.classList.add('light')" class="flex-1 py-4 px-4 rounded-xl border border-outline-variant flex flex-col items-center gap-3 hover:bg-surface-variant transition-all text-on-surface">
+                    <span class="material-symbols-outlined text-[32px]">light_mode</span>
+                    <span class="font-label-md">Light Mode</span>
+                </button>
+                <button onclick="document.documentElement.classList.remove('light'); document.documentElement.classList.add('dark')" class="flex-1 py-4 px-4 rounded-xl border border-outline-variant flex flex-col items-center gap-3 hover:bg-surface-variant transition-all text-on-surface">
+                    <span class="material-symbols-outlined text-[32px]">dark_mode</span>
+                    <span class="font-label-md">Dark Mode</span>
+                </button>
+            </div>
+        </div>
+    </div>
     <script>
         // Update timestamp to current time for realistic feedback
         function updateTimestamp() {
