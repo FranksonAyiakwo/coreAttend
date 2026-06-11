@@ -139,11 +139,14 @@
     </style>
 </head>
 
-<body class="bg-surface dark:bg-inverse-surface text-on-surface dark:text-inverse-on-surface font-body-md min-h-screen flex flex-col transition-colors duration-300">
+<body
+    class="bg-surface dark:bg-inverse-surface text-on-surface dark:text-inverse-on-surface font-body-md min-h-screen flex flex-col transition-colors duration-300">
     <!-- TopAppBar -->
     <header
         class="flex justify-between items-center w-full px-gutter h-16 fixed top-0 z-50 bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-gray-700 transition-colors duration-300">
-        <div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed transition-colors duration-300">CoreAttend</div>
+        <div
+            class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed transition-colors duration-300">
+            CoreAttend</div>
         <div class="flex items-center gap-2">
             <img alt="Department of Information Technology & Digital Services logo" class="h-10 w-10 object-contain"
                 src="../itds.png" />
@@ -170,32 +173,43 @@
                         class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary dark:text-primary-fixed mb-4 transition-colors duration-300">
                         Attendance Recorded Successfully
                     </h1>
-                    <p class="text-secondary dark:text-secondary-fixed-dim font-body-lg mb-8 transition-colors duration-300">
-                        Your presence has been logged in the secure academic ledger.
+                    <p
+                        class="text-secondary dark:text-secondary-fixed-dim font-body-lg mb-8 transition-colors duration-300">
+                        Your presence has been logged into the database and will be recorded properly.
                     </p>
                 </div>
                 <!-- Details Grid (Asymmetric) -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left relative z-10 mb-12">
-                    <div class="p-4 bg-surface-container-low dark:bg-[#202325] border border-outline-variant dark:border-gray-700 rounded-lg transition-colors duration-300">
-                        <span class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline block mb-1">TIMESTAMP</span>
-                        <div class="font-label-md text-label-md text-primary dark:text-primary-fixed tracking-tight transition-colors duration-300" id="live-timestamp">
+                    <div
+                        class="p-4 bg-surface-container-low dark:bg-[#202325] border border-outline-variant dark:border-gray-700 rounded-lg transition-colors duration-300">
+                        <span
+                            class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline block mb-1">TIMESTAMP</span>
+                        <div class="font-label-md text-label-md text-primary dark:text-primary-fixed tracking-tight transition-colors duration-300"
+                            id="live-timestamp">
                             OCT 24, 2023 — 09:42:15 AM
                         </div>
                     </div>
-                    <div class="p-4 bg-surface-container-low dark:bg-[#202325] border border-outline-variant dark:border-gray-700 rounded-lg transition-colors duration-300">
-                        <span class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline block mb-1">COURSE ID</span>
-                        <div class="font-label-md text-label-md text-primary dark:text-primary-fixed tracking-tight transition-colors duration-300">
+                    <div
+                        class="p-4 bg-surface-container-low dark:bg-[#202325] border border-outline-variant dark:border-gray-700 rounded-lg transition-colors duration-300">
+                        <span
+                            class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline block mb-1">COURSE
+                            ID</span>
+                        <div
+                            class="font-label-md text-label-md text-primary dark:text-primary-fixed tracking-tight transition-colors duration-300">
                             INFT 258: SOFTWARE ENGINEERING
                         </div>
                     </div>
                     <div
                         class="md:col-span-2 p-4 bg-surface-container-low dark:bg-[#202325] border border-outline-variant dark:border-gray-700 rounded-lg flex items-center gap-3 transition-colors duration-300">
-                        <span class="material-symbols-outlined text-secondary dark:text-secondary-fixed-dim transition-colors duration-300"
+                        <span
+                            class="material-symbols-outlined text-secondary dark:text-secondary-fixed-dim transition-colors duration-300"
                             data-icon="verified_user">verified_user</span>
                         <div>
-                            <span class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline block transition-colors duration-300">VALIDATION
+                            <span
+                                class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline block transition-colors duration-300">VALIDATION
                                 STATUS</span>
-                            <div class="font-label-md text-label-md text-on-tertiary-fixed-variant dark:text-tertiary-fixed-dim font-bold transition-colors duration-300">
+                            <div
+                                class="font-label-md text-label-md text-on-tertiary-fixed-variant dark:text-tertiary-fixed-dim font-bold transition-colors duration-300">
                                 SECURELY VERIFIED
                             </div>
                         </div>
@@ -204,7 +218,8 @@
 
             </div>
             <!-- Informational Message -->
-            <p class="mt-8 text-center text-on-surface-variant dark:text-outline font-body-sm px-4 transition-colors duration-300">
+            <p
+                class="mt-8 text-center text-on-surface-variant dark:text-outline font-body-sm px-4 transition-colors duration-300">
                 Bravo! contact your lecturer if you have any issues with your attendance
             </p>
         </div>
@@ -222,7 +237,8 @@
             <span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
             <span class="font-label-sm text-label-sm">Success</span>
         </a>
-        <button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 hover:bg-surface-variant dark:hover:bg-gray-800 transition-all rounded-full cursor-pointer"
+        <button
+            class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 hover:bg-surface-variant dark:hover:bg-gray-800 transition-all rounded-full cursor-pointer"
             onclick="document.getElementById('settings-modal').classList.remove('hidden')">
             <span class="material-symbols-outlined" data-icon="settings">settings</span>
             <span class="font-label-sm text-label-sm">Settings</span>
@@ -230,20 +246,28 @@
     </nav>
 
     <!-- Settings Modal -->
-    <div id="settings-modal" class="hidden fixed inset-0 z-50 bg-black/50 flex items-end md:items-center justify-center transition-opacity">
-        <div class="bg-surface-container-lowest dark:bg-[#1a1c1e] w-full md:w-96 rounded-t-2xl md:rounded-2xl p-6 transform transition-all border border-outline-variant dark:border-gray-700">
+    <div id="settings-modal"
+        class="hidden fixed inset-0 z-50 bg-black/50 flex items-end md:items-center justify-center transition-opacity">
+        <div
+            class="bg-surface-container-lowest dark:bg-[#1a1c1e] w-full md:w-96 rounded-t-2xl md:rounded-2xl p-6 transform transition-all border border-outline-variant dark:border-gray-700">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="font-headline-md text-primary dark:text-primary-fixed transition-colors duration-300">Settings</h2>
-                <button onclick="document.getElementById('settings-modal').classList.add('hidden')" class="text-on-surface-variant dark:text-outline hover:bg-surface-variant dark:hover:bg-gray-800 rounded-full p-1 flex items-center justify-center transition-colors duration-300">
+                <h2 class="font-headline-md text-primary dark:text-primary-fixed transition-colors duration-300">
+                    Settings</h2>
+                <button onclick="document.getElementById('settings-modal').classList.add('hidden')"
+                    class="text-on-surface-variant dark:text-outline hover:bg-surface-variant dark:hover:bg-gray-800 rounded-full p-1 flex items-center justify-center transition-colors duration-300">
                     <span class="material-symbols-outlined">close</span>
                 </button>
             </div>
             <div class="flex gap-4">
-                <button onclick="document.documentElement.classList.remove('dark'); document.documentElement.classList.add('light')" class="flex-1 py-4 px-4 rounded-xl border border-outline-variant dark:border-gray-700 flex flex-col items-center gap-3 hover:bg-surface-variant dark:hover:bg-gray-800 transition-all text-on-surface dark:text-inverse-on-surface">
+                <button
+                    onclick="document.documentElement.classList.remove('dark'); document.documentElement.classList.add('light')"
+                    class="flex-1 py-4 px-4 rounded-xl border border-outline-variant dark:border-gray-700 flex flex-col items-center gap-3 hover:bg-surface-variant dark:hover:bg-gray-800 transition-all text-on-surface dark:text-inverse-on-surface">
                     <span class="material-symbols-outlined text-[32px]">light_mode</span>
                     <span class="font-label-md">Light Mode</span>
                 </button>
-                <button onclick="document.documentElement.classList.remove('light'); document.documentElement.classList.add('dark')" class="flex-1 py-4 px-4 rounded-xl border border-outline-variant dark:border-gray-700 flex flex-col items-center gap-3 hover:bg-surface-variant dark:hover:bg-gray-800 transition-all text-on-surface dark:text-inverse-on-surface">
+                <button
+                    onclick="document.documentElement.classList.remove('light'); document.documentElement.classList.add('dark')"
+                    class="flex-1 py-4 px-4 rounded-xl border border-outline-variant dark:border-gray-700 flex flex-col items-center gap-3 hover:bg-surface-variant dark:hover:bg-gray-800 transition-all text-on-surface dark:text-inverse-on-surface">
                     <span class="material-symbols-outlined text-[32px]">dark_mode</span>
                     <span class="font-label-md">Dark Mode</span>
                 </button>
