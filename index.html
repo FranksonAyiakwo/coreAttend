@@ -5,6 +5,10 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>CoreAttend - Portal</title>
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#00236f" />
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png" />
     <!-- Google Fonts: Inter & JetBrains Mono -->
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap"
@@ -136,6 +140,11 @@
         class="flex justify-between items-center w-full px-4 h-16 fixed top-0 z-50 bg-surface border-b border-outline-variant">
         <div class="font-headline-md font-bold text-primary text-xl">CoreAttend</div>
         <div class="flex items-center gap-4">
+            <!-- Install App Button -->
+            <button id="install-app-btn" onclick="installApp()" style="display: none;" class="bg-primary text-on-primary px-3 py-1.5 rounded-full text-sm font-medium hover:bg-opacity-90 transition inline-flex items-center gap-1">
+                <span class="material-symbols-outlined text-[18px]">download</span>
+                Install
+            </button>
             <!-- Theme Toggle -->
             <label class="theme-toggle" title="Toggle dark / light mode">
                 <input type="checkbox" id="theme-toggle-input" onchange="toggleTheme(this.checked)" />
@@ -196,6 +205,47 @@
                 htmlEl.classList.replace('dark', 'light');
                 localStorage.setItem('coreattend_theme', 'light');
             }
+        }
+
+        // ── PWA Installation & Service Worker ───────────────────────────
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent the mini-infobar from appearing on mobile
+            e.preventDefault();
+            // Stash the event so it can be triggered later.
+            deferredPrompt = e;
+            // Update UI to notify the user they can install the PWA
+            const installBtn = document.getElementById('install-app-btn');
+            if (installBtn) {
+                installBtn.style.display = 'inline-flex';
+            }
+        });
+
+        function installApp() {
+            const installBtn = document.getElementById('install-app-btn');
+            if (installBtn) installBtn.style.display = 'none';
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    } else {
+                        console.log('User dismissed the install prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').then(registration => {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }).catch(error => {
+                    console.log('ServiceWorker registration failed: ', error);
+                });
+            });
         }
     </script>
 </body>
