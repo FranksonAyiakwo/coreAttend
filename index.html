@@ -140,11 +140,6 @@
         class="flex justify-between items-center w-full px-4 h-16 fixed top-0 z-50 bg-surface border-b border-outline-variant">
         <div class="font-headline-md font-bold text-primary text-xl">CoreAttend</div>
         <div class="flex items-center gap-4">
-            <!-- Install App Button -->
-            <button id="install-app-btn" onclick="installApp()" style="display: none;" class="bg-primary text-on-primary px-3 py-1.5 rounded-full text-sm font-medium hover:bg-opacity-90 transition inline-flex items-center gap-1">
-                <span class="material-symbols-outlined text-[18px]">download</span>
-                Install
-            </button>
             <!-- Theme Toggle -->
             <label class="theme-toggle" title="Toggle dark / light mode">
                 <input type="checkbox" id="theme-toggle-input" onchange="toggleTheme(this.checked)" />
@@ -164,7 +159,13 @@
                     style="font-variation-settings: 'FILL' 1;">how_to_reg</span>
             </div>
             <h1 class="text-3xl font-bold text-on-surface mb-2">Welcome to CoreAttend</h1>
-            <p class="text-on-surface-variant max-w-md mx-auto">The best source for taking students' attendance.</p>
+            <p class="text-on-surface-variant max-w-md mx-auto mb-6">The best source for taking students' attendance.</p>
+            
+            <!-- Install App Button (Moved for better mobile layout) -->
+            <button id="install-app-btn" onclick="installApp()" style="display: none;" class="bg-primary text-on-primary px-6 py-2.5 mx-auto mt-2 rounded-full text-sm font-bold hover:bg-opacity-90 transition inline-flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
+                <span class="material-symbols-outlined text-[20px]">install_mobile</span>
+                Install App
+            </button>
         </div>
 
         <div class="flex flex-col gap-6 w-full max-w-sm mx-auto justify-center">
