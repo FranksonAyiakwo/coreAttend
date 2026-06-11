@@ -9,7 +9,12 @@
   "icons": [
     {
       "src": "./itds.png",
-      "sizes": "192x192 512x512 any",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./itds.png",
+      "sizes": "512x512",
       "type": "image/png"
     }
   ]
