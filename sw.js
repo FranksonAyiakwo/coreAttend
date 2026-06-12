@@ -26,11 +26,18 @@ self.addEventListener('install', event => {
 
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        // Return cached version or fetch new
-        return response || fetch(event.request);
-      })
+    fetch(event.request).then(response => {
+      // 1. We have internet! Return the fresh file from the server
+      const clonedResponse = response.clone();
+      caches.open(CACHE_NAME).then(cache => {
+        // Quietly update the offline cache with this newest version
+        cache.put(event.request, clonedResponse);
+      });
+      return response;
+    }).catch(() => {
+      // 2. We are offline! Fall back to the saved cache
+      return caches.match(event.request);
+    })
   );
 });
 
