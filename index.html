@@ -136,6 +136,13 @@
 </head>
 
 <body class="bg-surface text-on-surface min-h-screen flex flex-col font-body-md">
+    <!-- Offline Banner -->
+    <div id="offline-banner"
+        class="hidden bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 text-center py-2 text-sm font-semibold border-b border-red-200 dark:border-red-800 transition-all">
+        <span class="material-symbols-outlined align-middle text-sm mr-1">wifi_off</span>
+        You are currently offline. Some features may not be available.
+    </div>
+
     <!-- Top Navigation Bar -->
     <header
         class="flex justify-between items-center w-full px-4 h-16 fixed top-0 z-50 bg-surface border-b border-outline-variant">
@@ -164,10 +171,10 @@
             </p>
         </div>
 
-        <div class="flex flex-col gap-6 w-full max-w-sm mx-auto justify-center">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl mx-auto justify-center">
 
             <!-- Student Portal Card -->
-            <a href="student_enter_code/Student-eneter%20code.html"
+            <a href="student_enter_code/Student-enter-code.html"
                 class="bg-white border border-outline-variant rounded-2xl p-6 hover:shadow-lg hover:border-primary transition-all group flex flex-col items-center text-center">
                 <div
                     class="w-14 h-14 bg-surface-container-low rounded-full flex items-center justify-center mb-4 group-hover:bg-secondary-container transition-colors">
@@ -175,12 +182,103 @@
                         class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors text-3xl">school</span>
                 </div>
                 <h2 class="text-xl font-bold text-primary mb-2">Student Portal</h2>
-                <p class="text-sm text-on-surface-variant">Students should not tamper with lecturer's section or else
-                    all records will be deleted.</p>
+                <p class="text-sm text-on-surface-variant">Access your portal to mark attendance and view your class
+                    records.</p>
+            </a>
+
+            <!-- Lecturer Portal Card -->
+            <a href="lecturer_dashboard/lecturer-dashboard.html"
+                class="bg-white border border-outline-variant rounded-2xl p-6 hover:shadow-lg hover:border-primary transition-all group flex flex-col items-center text-center">
+                <div
+                    class="w-14 h-14 bg-surface-container-low rounded-full flex items-center justify-center mb-4 group-hover:bg-secondary-container transition-colors">
+                    <span
+                        class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors text-3xl">co_present</span>
+                </div>
+                <h2 class="text-xl font-bold text-primary mb-2">Lecturer Portal</h2>
+                <p class="text-sm text-on-surface-variant">Manage your classes, generate attendance codes, and monitor
+                    students.</p>
             </a>
         </div>
 
+        <!-- How it works -->
+        <div class="mt-10 text-center w-full">
+            <button onclick="document.getElementById('how-it-works-modal').classList.remove('hidden')"
+                class="text-on-surface-variant hover:text-primary transition-colors font-medium flex items-center gap-2 mx-auto bg-surface-container-low px-4 py-2 rounded-full border border-outline-variant hover:border-primary">
+                <span class="material-symbols-outlined text-[20px]"
+                    style="font-variation-settings: 'FILL' 1;">help</span>
+                How does CoreAttend work?
+            </button>
+        </div>
+
     </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto border-t border-outline-variant py-6 bg-surface-container-lowest w-full px-4">
+        <div
+            class="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between text-sm text-on-surface-variant">
+            <p>&copy; 2026 CoreAttend System.</p>
+            <div class="flex items-center gap-4 mt-4 md:mt-0">
+                <span class="bg-surface-container-low px-2 py-1 rounded-md text-xs font-mono font-bold">v1.0.0</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- How it Works Modal -->
+    <div id="how-it-works-modal"
+        class="fixed inset-0 z-[100] bg-surface/70 backdrop-blur-md flex items-center justify-center p-4 hidden transition-opacity">
+        <div
+            class="bg-surface-container-lowest border border-outline-variant shadow-lg rounded-3xl p-8 w-full max-w-md relative">
+            <button onclick="document.getElementById('how-it-works-modal').classList.add('hidden')"
+                class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center bg-surface-container-low rounded-full text-on-surface-variant hover:text-primary transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <div class="flex items-center gap-3 mb-6">
+                <div
+                    class="w-12 h-12 bg-secondary-container text-primary rounded-xl flex items-center justify-center shadow-inner">
+                    <span class="material-symbols-outlined text-2xl">info</span>
+                </div>
+                <h3 class="font-headline-md text-primary font-bold text-xl">How it Works</h3>
+            </div>
+
+            <div class="space-y-5 font-body-sm text-on-surface">
+                <div class="flex gap-4">
+                    <div
+                        class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0 font-bold shadow-md">
+                        1</div>
+                    <div>
+                        <p class="font-semibold text-base mb-0.5">Lecturer Generates Code</p>
+                        <p class="text-on-surface-variant leading-relaxed">The lecturer creates a session and displays a
+                            unique attendance code in the classroom.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div
+                        class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0 font-bold shadow-md">
+                        2</div>
+                    <div>
+                        <p class="font-semibold text-base mb-0.5">Student Enters Code</p>
+                        <p class="text-on-surface-variant leading-relaxed">Students open the Student Portal and enter
+                            the provided code to securely join.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div
+                        class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0 font-bold shadow-md">
+                        3</div>
+                    <div>
+                        <p class="font-semibold text-base mb-0.5">Verify Presence</p>
+                        <p class="text-on-surface-variant leading-relaxed">Location and device signals may be verified
+                            to ensure you are physically present.</p>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="document.getElementById('how-it-works-modal').classList.add('hidden')"
+                class="w-full mt-8 py-3 rounded-xl font-label-md bg-primary text-on-primary hover:opacity-90 transition-opacity font-bold shadow-md">
+                Got it!
+            </button>
+        </div>
+    </div>
 
     <!-- PWA Install Popup Overlay -->
     <div id="pwa-install-popup"
@@ -287,6 +385,20 @@
                 });
             });
         }
+
+        // ── Offline Status Tracking ─────────────────────────────────────
+        function updateOnlineStatus() {
+            const banner = document.getElementById('offline-banner');
+            if (navigator.onLine) {
+                banner.classList.add('hidden');
+            } else {
+                banner.classList.remove('hidden');
+            }
+        }
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+        // Initial check
+        updateOnlineStatus();
     </script>
 </body>
 
