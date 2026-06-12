@@ -160,7 +160,8 @@
                     style="font-variation-settings: 'FILL' 1;">how_to_reg</span>
             </div>
             <h1 class="text-3xl font-bold text-on-surface mb-2">Welcome to CoreAttend</h1>
-            <p class="text-on-surface-variant max-w-md mx-auto mb-6">The best source for taking students' attendance.</p>
+            <p class="text-on-surface-variant max-w-md mx-auto mb-6">The best platform for taking students' attendance.
+            </p>
         </div>
 
         <div class="flex flex-col gap-6 w-full max-w-sm mx-auto justify-center">
@@ -182,20 +183,29 @@
     </main>
 
     <!-- PWA Install Popup Overlay -->
-    <div id="pwa-install-popup" class="fixed inset-0 z-[100] bg-surface/70 backdrop-blur-md flex items-center justify-center p-4 opacity-0 transition-opacity duration-300 hidden">
-        <div id="pwa-install-card" class="bg-surface-container-lowest border border-outline-variant shadow-2xl rounded-3xl p-6 w-full max-w-sm flex flex-col gap-5 transform scale-95 transition-transform duration-300">
+    <div id="pwa-install-popup"
+        class="fixed inset-0 z-[100] bg-surface/70 backdrop-blur-md flex items-center justify-center p-4 opacity-0 transition-opacity duration-300 hidden">
+        <div id="pwa-install-card"
+            class="bg-surface-container-lowest border border-outline-variant shadow-2xl rounded-3xl p-6 w-full max-w-sm flex flex-col gap-5 transform scale-95 transition-transform duration-300">
             <div class="flex items-start gap-4">
-                <div class="w-14 h-14 bg-secondary-container text-primary rounded-2xl flex items-center justify-center shrink-0 shadow-inner">
-                    <span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">install_mobile</span>
+                <div
+                    class="w-14 h-14 bg-secondary-container text-primary rounded-2xl flex items-center justify-center shrink-0 shadow-inner">
+                    <span class="material-symbols-outlined text-[32px]"
+                        style="font-variation-settings: 'FILL' 1;">install_mobile</span>
                 </div>
                 <div class="mt-1">
                     <h3 class="font-headline-md text-primary font-bold text-[18px]">Install CoreAttend</h3>
-                    <p class="font-body-sm text-on-surface-variant leading-relaxed mt-1">Add to your home screen for faster, offline access!</p>
+                    <p class="font-body-sm text-on-surface-variant leading-relaxed mt-1">Add to your home screen for
+                        faster, offline access!</p>
                 </div>
             </div>
             <div class="flex gap-3 mt-1">
-                <button onclick="dismissInstall()" class="flex-1 py-3 rounded-xl font-label-md text-on-surface-variant bg-surface-container-high hover:bg-surface-variant transition-colors font-semibold">Not Now</button>
-                <button onclick="installApp()" class="flex-1 py-3 rounded-xl font-label-md bg-primary text-on-primary hover:opacity-90 transition-opacity font-bold shadow-md">Install App</button>
+                <button onclick="dismissInstall()"
+                    class="flex-1 py-3 rounded-xl font-label-md text-on-surface-variant bg-surface-container-high hover:bg-surface-variant transition-colors font-semibold">Not
+                    Now</button>
+                <button onclick="installApp()"
+                    class="flex-1 py-3 rounded-xl font-label-md bg-primary text-on-primary hover:opacity-90 transition-opacity font-bold shadow-md">Install
+                    App</button>
             </div>
         </div>
     </div>
