@@ -1,4 +1,4 @@
-const CACHE_NAME = 'coreattend-v3';
+const CACHE_NAME = 'coreattend-v4';
 const urlsToCache = [
   './',
   './index.html',
