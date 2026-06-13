@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html class="light" lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
@@ -10,7 +11,8 @@
     <!-- Google Fonts: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <!-- Material Symbols -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script>
         tailwind.config = {
@@ -37,28 +39,97 @@
         }
     </script>
     <style>
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-        
-        html.dark body, html.dark main, html.dark .bg-surface { background-color: #111316 !important; color: #e2e4e8 !important; }
-        html.dark .bg-white { background-color: #1e2126 !important; }
-        html.dark .border-outline-variant { border-color: #2e3035 !important; }
-        html.dark .text-on-surface { color: #e2e4e8 !important; }
-        html.dark .text-on-surface-variant { color: #9da0ab !important; }
-        html.dark .bg-surface-container-low { background-color: #1a1d21 !important; }
-        html.dark input { background-color: #111316 !important; border-color: #2e3035 !important; color: #e2e4e8 !important;}
-        html.dark input:focus { border-color: #b6c4ff !important; box-shadow: 0 0 0 1px #b6c4ff !important; }
-        
-        .theme-toggle { position: relative; width: 48px; height: 24px; cursor: pointer; display: inline-block; }
-        .theme-toggle input { opacity: 0; width: 0; height: 0; }
-        .theme-toggle .slider { position: absolute; inset: 0; background: #c5c5d3; border-radius: 24px; transition: background 0.3s; }
-        .theme-toggle input:checked+.slider { background: #00236f; }
-        .theme-toggle .slider::before { content: ''; position: absolute; left: 2px; bottom: 2px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: transform 0.3s; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); }
-        .theme-toggle input:checked+.slider::before { transform: translateX(24px); }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        html.dark body,
+        html.dark main,
+        html.dark .bg-surface {
+            background-color: #111316 !important;
+            color: #e2e4e8 !important;
+        }
+
+        html.dark .bg-white {
+            background-color: #1e2126 !important;
+        }
+
+        html.dark .border-outline-variant {
+            border-color: #2e3035 !important;
+        }
+
+        html.dark .text-on-surface {
+            color: #e2e4e8 !important;
+        }
+
+        html.dark .text-on-surface-variant {
+            color: #9da0ab !important;
+        }
+
+        html.dark .bg-surface-container-low {
+            background-color: #1a1d21 !important;
+        }
+
+        html.dark input {
+            background-color: #111316 !important;
+            border-color: #2e3035 !important;
+            color: #e2e4e8 !important;
+        }
+
+        html.dark input:focus {
+            border-color: #b6c4ff !important;
+            box-shadow: 0 0 0 1px #b6c4ff !important;
+        }
+
+        .theme-toggle {
+            position: relative;
+            width: 48px;
+            height: 24px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .theme-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .theme-toggle .slider {
+            position: absolute;
+            inset: 0;
+            background: #c5c5d3;
+            border-radius: 24px;
+            transition: background 0.3s;
+        }
+
+        .theme-toggle input:checked+.slider {
+            background: #00236f;
+        }
+
+        .theme-toggle .slider::before {
+            content: '';
+            position: absolute;
+            left: 2px;
+            bottom: 2px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #fff;
+            transition: transform 0.3s;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-toggle input:checked+.slider::before {
+            transform: translateX(24px);
+        }
     </style>
 </head>
+
 <body class="bg-surface text-on-surface min-h-screen flex flex-col font-body-md transition-colors duration-300">
     <!-- Top Nav -->
-    <header class="flex justify-between items-center w-full px-4 h-16 fixed top-0 z-50 bg-surface border-b border-outline-variant transition-colors">
+    <header
+        class="flex justify-between items-center w-full px-4 h-16 fixed top-0 z-50 bg-surface border-b border-outline-variant transition-colors">
         <a href="../index.html" class="flex items-center gap-2 text-on-surface hover:text-primary transition-colors">
             <span class="material-symbols-outlined">arrow_back</span>
             <span class="font-semibold text-sm">Back</span>
@@ -73,10 +144,13 @@
     </header>
 
     <main class="flex-grow flex flex-col items-center justify-center pt-24 pb-12 px-4 w-full text-center">
-        <div class="w-full max-w-md bg-white border border-outline-variant rounded-3xl p-8 shadow-xl transition-colors text-left">
+        <div
+            class="w-full max-w-md bg-white border border-outline-variant rounded-3xl p-8 shadow-xl transition-colors text-left">
             <div class="text-center mb-8">
-                <div class="w-16 h-16 mx-auto bg-surface-container-low text-primary rounded-full flex items-center justify-center mb-4">
-                    <span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">admin_panel_settings</span>
+                <div
+                    class="w-16 h-16 mx-auto bg-surface-container-low text-primary rounded-full flex items-center justify-center mb-4">
+                    <span class="material-symbols-outlined text-3xl"
+                        style="font-variation-settings: 'FILL' 1;">admin_panel_settings</span>
                 </div>
                 <h1 class="text-2xl font-bold text-on-surface mb-2">Lecturer Login</h1>
                 <p class="text-sm text-on-surface-variant">Sign in securely to manage your attendance sessions.</p>
@@ -86,30 +160,37 @@
                 <div>
                     <label for="email" class="block text-sm font-semibold text-on-surface mb-1">Email Address</label>
                     <div class="relative">
-                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">mail</span>
-                        <input type="email" id="email" required placeholder="admin@coreattend.com" class="w-full pl-10 pr-4 py-3 rounded-xl border border-outline-variant bg-surface text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+                        <span
+                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">mail</span>
+                        <input type="email" id="email" required placeholder="Albert@gmail.com"
+                            class="w-full pl-10 pr-4 py-3 rounded-xl border border-outline-variant bg-surface text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
                     </div>
                 </div>
 
                 <div>
-                    <label for="password" class="block text-sm font-semibold text-on-surface mb-1" style="margin-top: 10px;">Password</label>
+                    <label for="password" class="block text-sm font-semibold text-on-surface mb-1"
+                        style="margin-top: 10px;">Password</label>
                     <div class="relative mt-1">
-                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">lock</span>
-                        <input type="password" id="password" required placeholder="admin123" class="w-full pl-10 pr-4 py-3 rounded-xl border border-outline-variant bg-surface text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+                        <span
+                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">lock</span>
+                        <input type="password" id="password" required placeholder=" "
+                            class="w-full pl-10 pr-4 py-3 rounded-xl border border-outline-variant bg-surface text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
                     </div>
                 </div>
 
-                <div id="error-message" class="hidden flex items-center gap-2 text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 p-3 rounded-lg text-sm font-medium mt-4">
+                <div id="error-message"
+                    class="hidden flex items-center gap-2 text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 p-3 rounded-lg text-sm font-medium mt-4">
                     <span class="material-symbols-outlined text-[20px]">error</span>
                     Invalid email address or password.
                 </div>
 
                 <div class="mt-8 pt-4">
-                    <button type="submit" class="w-full py-3.5 rounded-xl font-label-md bg-primary text-on-primary hover:opacity-90 transition-opacity font-bold shadow-md flex items-center justify-center gap-2">
+                    <button type="submit"
+                        class="w-full py-3.5 rounded-xl font-label-md bg-primary text-on-primary hover:opacity-90 transition-opacity font-bold shadow-md flex items-center justify-center gap-2">
                         Sign In
                         <span class="material-symbols-outlined text-sm font-bold">arrow_forward</span>
                     </button>
-               </div>
+                </div>
             </form>
 
         </div>
@@ -150,7 +231,7 @@
                 btn.innerHTML = `<span class="material-symbols-outlined animate-spin" style="animation: spin 1s linear infinite;">progress_activity</span> Authenticating...`;
                 btn.disabled = true;
                 btn.classList.add('opacity-70');
-                
+
                 // keyframes for spinner if needed
                 if (!document.getElementById('spinStyle')) {
                     var style = document.createElement('style');
@@ -170,4 +251,5 @@
         }
     </script>
 </body>
+
 </html>
