@@ -136,11 +136,10 @@
 </head>
 
 <body class="bg-surface text-on-surface min-h-screen flex flex-col font-body-md">
-    <!-- Offline Banner -->
-    <div id="offline-banner"
-        class="hidden bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 text-center py-2 text-sm font-semibold border-b border-red-200 dark:border-red-800 transition-all">
-        <span class="material-symbols-outlined align-middle text-sm mr-1">wifi_off</span>
-        You are currently offline. Some features may not be available.
+    <!-- Connection Status Banner -->
+    <div id="connection-banner" class="hidden">
+        <span id="connection-icon" class="material-symbols-outlined align-middle text-sm mr-1"></span>
+        <span id="connection-text"></span>
     </div>
 
     <!-- Top Navigation Bar -->
@@ -386,15 +385,37 @@
             });
         }
 
-        // ── Offline Status Tracking ─────────────────────────────────────
+        // ── Offline / Online Status Tracking ────────────────────────────
+        let isFirstLoad = true;
+        let onlineTimeout;
+
         function updateOnlineStatus() {
-            const banner = document.getElementById('offline-banner');
+            const banner = document.getElementById('connection-banner');
+            const icon = document.getElementById('connection-icon');
+            const text = document.getElementById('connection-text');
+            
             if (navigator.onLine) {
-                banner.classList.add('hidden');
+                if (!isFirstLoad) {
+                    banner.className = "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 text-center py-2 text-sm font-semibold border-b border-green-200 dark:border-green-800 transition-all z-50 relative slide-down";
+                    icon.textContent = "wifi";
+                    text.textContent = "You are back online!";
+                    
+                    clearTimeout(onlineTimeout);
+                    onlineTimeout = setTimeout(() => {
+                        banner.classList.add('hidden');
+                    }, 3500);
+                } else {
+                    banner.classList.add('hidden');
+                }
             } else {
-                banner.classList.remove('hidden');
+                clearTimeout(onlineTimeout);
+                banner.className = "bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 text-center py-2 text-sm font-semibold border-b border-red-200 dark:border-red-800 transition-all z-50 relative slide-down";
+                icon.textContent = "wifi_off";
+                text.textContent = "You are currently offline. Some features may not be available.";
             }
+            isFirstLoad = false;
         }
+
         window.addEventListener('online', updateOnlineStatus);
         window.addEventListener('offline', updateOnlineStatus);
         // Initial check
