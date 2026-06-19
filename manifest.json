@@ -4,7 +4,7 @@
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#00236f",
+  "theme_color": "#ffffff",
   "description": "The best source for taking students' attendance.",
   "icons": [
     {
