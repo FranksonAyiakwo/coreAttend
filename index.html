@@ -194,8 +194,8 @@
                         class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors text-3xl">co_present</span>
                 </div>
                 <h2 class="text-xl font-bold text-primary mb-2">Lecturer Portal</h2>
-                <p class="text-sm text-on-surface-variant">Manage your classes, generate attendance codes, and monitor
-                    students.</p>
+                <p class="text-sm text-on-surface-variant">Students should not attempt this section. This section is
+                    strictly meant for the Lecturers</p>
             </a>
         </div>
 
@@ -268,6 +268,16 @@
                         <p class="font-semibold text-base mb-0.5">Verify Presence</p>
                         <p class="text-on-surface-variant leading-relaxed">Location and device signals may be verified
                             to ensure you are physically present.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div
+                        class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0 font-bold shadow-md">
+                        4</div>
+                    <div>
+                        <p class="font-semibold text-base mb-0.5">Your Presence</p>
+                        <p class="text-on-surface-variant leading-relaxed">Be physically present in class or else you
+                            can't mark your attendance.</p>
                     </div>
                 </div>
             </div>
@@ -393,13 +403,13 @@
             const banner = document.getElementById('connection-banner');
             const icon = document.getElementById('connection-icon');
             const text = document.getElementById('connection-text');
-            
+
             if (navigator.onLine) {
                 if (!isFirstLoad) {
                     banner.className = "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 text-center py-2 text-sm font-semibold border-b border-green-200 dark:border-green-800 transition-all z-50 relative slide-down";
                     icon.textContent = "wifi";
                     text.textContent = "You are back online!";
-                    
+
                     clearTimeout(onlineTimeout);
                     onlineTimeout = setTimeout(() => {
                         banner.classList.add('hidden');
